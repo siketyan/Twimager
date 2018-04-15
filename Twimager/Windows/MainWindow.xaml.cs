@@ -1,4 +1,4 @@
-﻿namespace Twimager
+﻿namespace Twimager.Windows
 {
     /// <summary>
     /// MainWindow.xaml の相互作用ロジック
