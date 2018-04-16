@@ -4,8 +4,103 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Twimager" Width="334" Height="420">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
 
+        <StackPanel Orientation="Horizontal">
+            <Label Foreground="#555"
+                   FontSize="22"
+                   FontFamily="../Resources/#Material Icons"
+                   VerticalContentAlignment="Center"
+                   Cursor="Hand"></Label>
+            <Label Foreground="#555"
+                   FontSize="22"
+                   FontFamily="../Resources/#Material Icons"
+                   VerticalContentAlignment="Center"
+                   Cursor="Hand"></Label>
+            <Label Foreground="#555"
+                   FontSize="20"
+                   FontFamily="../Resources/#Material Icons"
+                   VerticalContentAlignment="Center"
+                   Cursor="Hand"></Label>
+            <Label Foreground="#555"
+                   FontSize="20"
+                   FontFamily="../Resources/#Material Icons"
+                   VerticalContentAlignment="Center"
+                   Cursor="Hand"></Label>
+        </StackPanel>
+        
+        <ListBox Grid.Row="1"
+                 Background="Transparent"
+                 BorderThickness="0"
+                 HorizontalContentAlignment="Stretch">
+            <ListBox.Template>
+                <ControlTemplate TargetType="ItemsControl">
+                    <Border>
+                        <ItemsPresenter />
+                    </Border>
+                </ControlTemplate>
+            </ListBox.Template>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#EEEE" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="#DDDD" />
+                        </Trigger>
+                    </Style.Triggers>
+                    
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ContentControl}">
+                                <Border Background="{TemplateBinding Background}">
+                                    <ContentPresenter />
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            
+            <Border Padding="10,5">
+                <DockPanel>
+                    <Label DockPanel.Dock="Right"
+                           Foreground="#555"
+                           FontSize="22"
+                           FontFamily="../Resources/#Material Icons"
+                           VerticalContentAlignment="Center"
+                           Cursor="Hand"></Label>
+                    <Label DockPanel.Dock="Right"
+                           Foreground="Green"
+                           FontSize="22"
+                           FontFamily="../Resources/#Material Icons"
+                           VerticalContentAlignment="Center"></Label>
+                    <Ellipse Width="48" Height="48" VerticalAlignment="Top">
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="https://pbs.twimg.com/profile_images/863102227430244352/cTwuFUrg_bigger.jpg"/>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <StackPanel Margin="10,4">
+                        <Label FontSize="16" Padding="0">
+                            <TextBlock TextTrimming="CharacterEllipsis">
+                                2次元美少女画像(拾い画)
+                            </TextBlock>
+                        </Label>
+                        <Label Padding="0,1,0,0">
+                            <TextBlock TextTrimming="CharacterEllipsis">
+                                @nizigennnizi
+                            </TextBlock>
+                        </Label>
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+        </ListBox>
     </Grid>
 </Window>
