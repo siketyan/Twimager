@@ -13,7 +13,8 @@
 
         <DockPanel LastChildFill="False">
             <Button Template="{StaticResource IconButtonTemplate}"
-                    FontSize="22"></Button>
+                    FontSize="22"
+                    Click="AddAccount"></Button>
             <Button Template="{StaticResource IconButtonTemplate}"
                     FontSize="22"></Button>
             <Button DockPanel.Dock="Right"

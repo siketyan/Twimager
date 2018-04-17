@@ -10,9 +10,11 @@
         <DockPanel Margin="15,10">
             <Button DockPanel.Dock="Right"
                     Template="{StaticResource IconButtonTemplate}"
-                    FontSize="22"></Button>
+                    FontSize="22"
+                    Click="AddAsync"></Button>
             <Label VerticalContentAlignment="Center">@</Label>
-            <TextBox Height="24"
+            <TextBox x:Name="ScreenName"
+                     Height="24"
                      Margin="5"
                      Padding="5,0"
                      VerticalContentAlignment="Center"></TextBox>

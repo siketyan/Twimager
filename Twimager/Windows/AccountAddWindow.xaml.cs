@@ -1,27 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
+using Twimager.Objects;
 
 namespace Twimager.Windows
 {
     /// <summary>
     /// AccountAddWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class AccountAddWindow : Window
+    public partial class AccountAddWindow
     {
+        public Account Account { get; private set; }
+
         public AccountAddWindow()
         {
             InitializeComponent();
+        }
+
+        private async void AddAsync(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var screenName = ScreenName.Text;
+                var user = await App.GetCurrent().Twitter.Users.ShowAsync(screenName);
+
+                Account = new Account
+                {
+                    Id = (long)user.Id,
+                    ScreenName = user.ScreenName,
+                    Name = user.Name
+                };
+            }
+            catch
+            {
+                // TODO: User not found
+            }
+
+            Close();
         }
     }
 }

@@ -76,6 +76,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Objects\Account.cs" />
     <Compile Include="Windows\AccountAddWindow.xaml.cs">
       <DependentUpon>AccountAddWindow.xaml</DependentUpon>
     </Compile>
