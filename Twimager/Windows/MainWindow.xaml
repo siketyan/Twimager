@@ -11,7 +11,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal">
+        <DockPanel LastChildFill="False">
             <Label Foreground="#555"
                    FontSize="22"
                    FontFamily="../Resources/#Material Icons"
@@ -22,17 +22,13 @@
                    FontFamily="../Resources/#Material Icons"
                    VerticalContentAlignment="Center"
                    Cursor="Hand"></Label>
-            <Label Foreground="#555"
-                   FontSize="20"
-                   FontFamily="../Resources/#Material Icons"
-                   VerticalContentAlignment="Center"
-                   Cursor="Hand"></Label>
-            <Label Foreground="#555"
+            <Label DockPanel.Dock="Right"
+                   Foreground="#555"
                    FontSize="20"
                    FontFamily="../Resources/#Material Icons"
                    VerticalContentAlignment="Center"
                    Cursor="Hand"></Label>
-        </StackPanel>
+        </DockPanel>
         
         <ListBox Grid.Row="1"
                  Background="Transparent"
