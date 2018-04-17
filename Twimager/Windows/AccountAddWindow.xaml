@@ -8,12 +8,9 @@
         ResizeMode="NoResize">
     <Grid>
         <DockPanel Margin="15,10">
-            <Label DockPanel.Dock="Right"
-                   Foreground="#555"
-                   FontSize="22"
-                   FontFamily="../Resources/#Material Icons"
-                   VerticalContentAlignment="Center"
-                   Cursor="Hand"></Label>
+            <Button DockPanel.Dock="Right"
+                    Template="{StaticResource IconButtonTemplate}"
+                    FontSize="22"></Button>
             <Label VerticalContentAlignment="Center">@</Label>
             <TextBox Height="24"
                      Margin="5"

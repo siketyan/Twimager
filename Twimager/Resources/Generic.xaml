@@ -1,0 +1,11 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ControlTemplate x:Key="IconButtonTemplate" TargetType="{x:Type Button}">
+        <Label Foreground="#555"
+               FontSize="{TemplateBinding FontSize}"
+               FontFamily="../Resources/#Material Icons"
+               VerticalContentAlignment="Center"
+               Cursor="Hand"
+               Content="{TemplateBinding Content}" />
+    </ControlTemplate>
+</ResourceDictionary>

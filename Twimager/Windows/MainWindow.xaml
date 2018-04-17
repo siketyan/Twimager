@@ -12,22 +12,13 @@
         </Grid.RowDefinitions>
 
         <DockPanel LastChildFill="False">
-            <Label Foreground="#555"
-                   FontSize="22"
-                   FontFamily="../Resources/#Material Icons"
-                   VerticalContentAlignment="Center"
-                   Cursor="Hand"></Label>
-            <Label Foreground="#555"
-                   FontSize="22"
-                   FontFamily="../Resources/#Material Icons"
-                   VerticalContentAlignment="Center"
-                   Cursor="Hand"></Label>
-            <Label DockPanel.Dock="Right"
-                   Foreground="#555"
-                   FontSize="20"
-                   FontFamily="../Resources/#Material Icons"
-                   VerticalContentAlignment="Center"
-                   Cursor="Hand"></Label>
+            <Button Template="{StaticResource IconButtonTemplate}"
+                    FontSize="22"></Button>
+            <Button Template="{StaticResource IconButtonTemplate}"
+                    FontSize="22"></Button>
+            <Button DockPanel.Dock="Right"
+                    Template="{StaticResource IconButtonTemplate}"
+                    FontSize="20"></Button>
         </DockPanel>
         
         <ListBox Grid.Row="1"
@@ -67,12 +58,9 @@
             
             <Border Padding="10,5">
                 <DockPanel>
-                    <Label DockPanel.Dock="Right"
-                           Foreground="#555"
-                           FontSize="22"
-                           FontFamily="../Resources/#Material Icons"
-                           VerticalContentAlignment="Center"
-                           Cursor="Hand"></Label>
+                    <Button DockPanel.Dock="Right"
+                            Template="{StaticResource IconButtonTemplate}"
+                            FontSize="22"></Button>
                     <Label DockPanel.Dock="Right"
                            Foreground="Green"
                            FontSize="22"
