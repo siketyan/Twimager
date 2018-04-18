@@ -68,6 +68,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\AuthWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -77,8 +81,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Objects\Account.cs" />
+    <Compile Include="Objects\Config.cs" />
+    <Compile Include="Objects\Credentials.cs" />
+    <Compile Include="Resources\TwitterKeys.Template.cs" />
+    <Compile Include="Resources\TwitterKeys.cs" />
     <Compile Include="Windows\AccountAddWindow.xaml.cs">
       <DependentUpon>AccountAddWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\AuthWindow.xaml.cs">
+      <DependentUpon>AuthWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
