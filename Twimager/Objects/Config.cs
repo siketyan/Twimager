@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Twimager.Objects
@@ -9,7 +10,7 @@ namespace Twimager.Objects
 
 
         [JsonIgnore]
-        private readonly string _path;
+        private string _path;
 
 
         public Config(string path)
@@ -22,7 +23,10 @@ namespace Twimager.Objects
             try
             {
                 var json = File.ReadAllText(path);
-                return JsonConvert.DeserializeObject<Config>(json);
+                var config = JsonConvert.DeserializeObject<Config>(json);
+                config._path = path;
+
+                return config;
             }
             catch (FileNotFoundException)
             {
