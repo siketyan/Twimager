@@ -15,5 +15,8 @@ namespace Twimager.Objects
 
         [JsonProperty("profile_image_url")]
         public string ProfileImageUrl { get; set; }
+
+        [JsonProperty("latest")]
+        public long? Latest { get; set; }
     }
 }

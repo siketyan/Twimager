@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using Twimager.Enums;
 using Twimager.Objects;
 
 namespace Twimager.Windows
@@ -48,7 +49,7 @@ namespace Twimager.Windows
             var id = (long)(sender as Control).Tag;
             var account = Accounts.FirstOrDefault(x => x.Id == id);
 
-            new UpdateWindow(account).ShowWithPosition();
+            new UpdateWindow(account, UpdateType.Past).ShowWithPosition();
         }
     }
 }
