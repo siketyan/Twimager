@@ -6,8 +6,12 @@ namespace Twimager.Objects
 {
     public class Config
     {
+        [JsonProperty("credentials")]
         public Credentials Credentials { get; set; }
-        public ObservableCollection<Account> Accounts { get; set; } = new ObservableCollection<Account>();
+
+        [JsonProperty("accounts")]
+        public ObservableCollection<Account> Accounts { get; set; }
+            = new ObservableCollection<Account>();
 
 
         [JsonIgnore]
