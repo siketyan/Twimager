@@ -49,7 +49,8 @@ namespace Twimager
                 Config.Credentials.AccessTokenSecret
             );
 
-            new MainWindow().Show();
+            new MainWindow().ShowDialog();
+            Shutdown();
         }
     }
 }
