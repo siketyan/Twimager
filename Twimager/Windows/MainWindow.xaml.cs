@@ -31,5 +31,14 @@ namespace Twimager.Windows
             Accounts.Add(window.Account);
             _app.Config.Save();
         }
+
+        private void RemoveAccount(object sender, RoutedEventArgs e)
+        {
+            var account = AccountsList.SelectedItem;
+            if (account == null) return;
+
+            Accounts.Remove(account as Account);
+            _app.Config.Save();
+        }
     }
 }

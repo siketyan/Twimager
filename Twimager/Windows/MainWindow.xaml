@@ -16,13 +16,15 @@
                     FontSize="22"
                     Click="AddAccount"></Button>
             <Button Template="{StaticResource IconButtonTemplate}"
-                    FontSize="22"></Button>
+                    FontSize="22"
+                    Click="RemoveAccount"></Button>
             <Button DockPanel.Dock="Right"
                     Template="{StaticResource IconButtonTemplate}"
                     FontSize="20"></Button>
         </DockPanel>
         
-        <ListBox Grid.Row="1"
+        <ListBox x:Name="AccountsList"
+                 Grid.Row="1"
                  Background="Transparent"
                  BorderThickness="0"
                  HorizontalContentAlignment="Stretch"
