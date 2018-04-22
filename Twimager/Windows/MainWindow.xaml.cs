@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using Twimager.Objects;
 
@@ -9,15 +9,18 @@ namespace Twimager.Windows
     /// </summary>
     public partial class MainWindow
     {
+        public ObservableCollection<Account> Accounts { get; }
+
         private App _app;
-        private List<Account> _accounts;
 
         public MainWindow()
         {
             InitializeComponent();
 
             _app = App.GetCurrent();
-            _accounts = _app.Config.Accounts;
+            Accounts = _app.Config.Accounts;
+
+            DataContext = this;
         }
 
         private void AddAccount(object sender, RoutedEventArgs e)
@@ -25,7 +28,7 @@ namespace Twimager.Windows
             var window = new AccountAddWindow();
             window.ShowDialog();
 
-            _accounts.Add(window.Account);
+            Accounts.Add(window.Account);
             _app.Config.Save();
         }
     }

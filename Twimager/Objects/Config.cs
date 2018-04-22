@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 
 namespace Twimager.Objects
@@ -7,7 +7,7 @@ namespace Twimager.Objects
     public class Config
     {
         public Credentials Credentials { get; set; }
-        public List<Account> Accounts { get; set; } = new List<Account>();
+        public ObservableCollection<Account> Accounts { get; set; } = new ObservableCollection<Account>();
 
 
         [JsonIgnore]
