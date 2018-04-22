@@ -7,6 +7,7 @@ namespace Twimager.Objects
     public class Config
     {
         public Credentials Credentials { get; set; }
+        public List<Account> Accounts { get; set; } = new List<Account>();
 
 
         [JsonIgnore]

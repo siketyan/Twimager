@@ -9,12 +9,15 @@ namespace Twimager.Windows
     /// </summary>
     public partial class MainWindow
     {
+        private App _app;
         private List<Account> _accounts;
 
         public MainWindow()
         {
             InitializeComponent();
-            _accounts = new List<Account>();
+
+            _app = App.GetCurrent();
+            _accounts = _app.Config.Accounts;
         }
 
         private void AddAccount(object sender, RoutedEventArgs e)
@@ -23,6 +26,7 @@ namespace Twimager.Windows
             window.ShowDialog();
 
             _accounts.Add(window.Account);
+            _app.Config.Save();
         }
     }
 }
