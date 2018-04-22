@@ -26,7 +26,8 @@ namespace Twimager.Windows
                 {
                     Id = (long)user.Id,
                     ScreenName = user.ScreenName,
-                    Name = user.Name
+                    Name = user.Name,
+                    ProfileImageUrl = user.ProfileImageUrlHttps
                 };
             }
             catch
