@@ -65,7 +65,9 @@
                         <DockPanel>
                             <Button DockPanel.Dock="Right"
                                     Template="{StaticResource IconButtonTemplate}"
-                                    FontSize="22"></Button>
+                                    FontSize="22"
+                                    Click="UpdateAccount"
+                                    Tag="{Binding Id}"></Button>
                             <Ellipse Width="48" Height="48" VerticalAlignment="Top">
                                 <Ellipse.Fill>
                                     <ImageBrush ImageSource="{Binding ProfileImageUrl}"/>
