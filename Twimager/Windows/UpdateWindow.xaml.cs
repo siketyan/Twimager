@@ -73,16 +73,18 @@ namespace Twimager.Windows
                     var isFirst = true;
                     while (true)
                     {
+                        Status = "Loading timeline...";
+
                         var statuses = await _twitter.Statuses.UserTimelineAsync(
                             Account.Id,
                             200,
                             trim_user: true,
-                            exclude_replies: true,
+                            exclude_replies: false,
                             include_rts: false,
                             max_id: oldest
                         );
-
-                        if (!statuses.Any()) break;
+                        
+                        if (statuses.Count <= 1) break;
                         foreach (var status in statuses)
                         {
                             await DownloadMediaAsync(wc, status, dir);
@@ -101,15 +103,17 @@ namespace Twimager.Windows
                 {
                     while (true)
                     {
+                        Status = "Loading timeline...";
+
                         var statuses = await _twitter.Statuses.UserTimelineAsync(
                             Account.Id,
                             200,
                             trim_user: true,
-                            exclude_replies: true,
+                            exclude_replies: false,
                             include_rts: false,
                             since_id: Account.Latest
                         );
-
+                        
                         if (!statuses.Any()) break;
                         foreach (var status in statuses)
                         {
@@ -121,6 +125,7 @@ namespace Twimager.Windows
                 }
             }
 
+            App.GetCurrent().Config.Save();
             Close();
         }
 
