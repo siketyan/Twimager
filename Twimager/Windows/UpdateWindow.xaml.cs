@@ -87,7 +87,7 @@ namespace Twimager.Windows
                         if (statuses.Count <= 1) break;
                         foreach (var status in statuses)
                         {
-                            await DownloadMediaAsync(wc, status, dir);
+                            if (await DownloadMediaAsync(wc, status, dir)) return;
                         }
 
                         oldest = statuses.Last().Id;
@@ -117,7 +117,7 @@ namespace Twimager.Windows
                         if (!statuses.Any()) break;
                         foreach (var status in statuses)
                         {
-                            await DownloadMediaAsync(wc, status, dir);
+                            if (await DownloadMediaAsync(wc, status, dir)) return;
                         }
 
                         Account.Latest = statuses.First().Id;
@@ -129,10 +129,10 @@ namespace Twimager.Windows
             Close();
         }
 
-        private async Task DownloadMediaAsync(WebClient wc, Status status, string destination)
+        private async Task<bool> DownloadMediaAsync(WebClient wc, Status status, string destination)
         {
             var entities = status.ExtendedEntities;
-            if (entities == null) return;
+            if (entities == null) return false;
 
             foreach (var media in entities.Media)
             {
@@ -168,19 +168,19 @@ namespace Twimager.Windows
                         retryBtn.Click += (sender, e) =>
                         {
                             result = ErrorDialogResult.Retry;
-                            Close();
+                            dialog.Close();
                         };
 
                         skipBtn.Click += (sender, e) =>
                         {
                             result = ErrorDialogResult.Skip;
-                            Close();
+                            dialog.Close();
                         };
 
                         cancelBtn.Click += (sender, e) =>
                         {
                             result = ErrorDialogResult.Cancel;
-                            Close();
+                            dialog.Close();
                         };
 
                         dialog.Controls.Add(retryBtn);
@@ -192,8 +192,14 @@ namespace Twimager.Windows
                     if (result != ErrorDialogResult.Retry) break;
                 }
 
-                if (result == ErrorDialogResult.Cancel) break;
+                if (result == ErrorDialogResult.Cancel)
+                {
+                    Close();
+                    return true;
+                }
             }
+
+            return false;
         }
 
         protected void OnPropertyChanged(string name)
