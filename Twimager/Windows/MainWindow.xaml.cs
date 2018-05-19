@@ -31,6 +31,8 @@ namespace Twimager.Windows
             var window = new AccountAddWindow();
             window.ShowDialog();
 
+            if (window.Account == null) return;
+
             Accounts.Add(window.Account);
             _app.Config.Save();
         }
