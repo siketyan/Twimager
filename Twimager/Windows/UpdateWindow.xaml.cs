@@ -67,9 +67,10 @@ namespace Twimager.Windows
 
             using (var wc = new WebClient())
             {
-                if (_type == UpdateType.Past)
+                if (Account.Latest == null)
                 {
                     long? oldest = null;
+                    var isFirst = true;
                     while (true)
                     {
                         var statuses = await _twitter.Statuses.UserTimelineAsync(
@@ -88,6 +89,12 @@ namespace Twimager.Windows
                         }
 
                         oldest = statuses.Last().Id;
+
+                        if (isFirst)
+                        {
+                            Account.Latest = statuses.First().Id;
+                            isFirst = false;
+                        }
                     }
                 }
                 else
@@ -136,10 +143,8 @@ namespace Twimager.Windows
 
                         Status = name;
 
-                        if (File.Exists(file)) continue;
+                        if (File.Exists(file)) break;
                         await wc.DownloadFileTaskAsync($"{url}:orig", file);
-
-                        throw new WebException();
                     }
                     catch
                     {
