@@ -1,4 +1,5 @@
 ﻿using CoreTweet;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -123,21 +124,65 @@ namespace Twimager.Windows
 
             foreach (var media in entities.Media)
             {
-                //try
-                //{
-                    var url = media.MediaUrlHttps;
-                    var name = Path.GetFileName(url);
-                    var file = $"{destination}/{name}";
+                var result = ErrorDialogResult.Retry;
 
-                    Status = name;
+                while (true)
+                {
+                    try
+                    {
+                        var url = media.MediaUrlHttps;
+                        var name = Path.GetFileName(url);
+                        var file = $"{destination}/{name}";
 
-                    if (File.Exists(file)) continue;
-                    await wc.DownloadFileTaskAsync($"{url}:orig", file);
-                //}
-                //catch
-                //{
-                    // TODO: When cannot download
-                //}
+                        Status = name;
+
+                        if (File.Exists(file)) continue;
+                        await wc.DownloadFileTaskAsync($"{url}:orig", file);
+
+                        throw new WebException();
+                    }
+                    catch
+                    {
+                        var dialog = new TaskDialog
+                        {
+                            Icon = TaskDialogStandardIcon.Error,
+                            Caption = "Twimager",
+                            InstructionText = "Failed to download the image.",
+                            Text = "An error occured while downloading."
+                        };
+
+                        var retryBtn = new TaskDialogButton { Text = "Retry" };
+                        var skipBtn = new TaskDialogButton { Text = "Skip" };
+                        var cancelBtn = new TaskDialogButton { Text = "Cancel" };
+
+                        retryBtn.Click += (sender, e) =>
+                        {
+                            result = ErrorDialogResult.Retry;
+                            Close();
+                        };
+
+                        skipBtn.Click += (sender, e) =>
+                        {
+                            result = ErrorDialogResult.Skip;
+                            Close();
+                        };
+
+                        cancelBtn.Click += (sender, e) =>
+                        {
+                            result = ErrorDialogResult.Cancel;
+                            Close();
+                        };
+
+                        dialog.Controls.Add(retryBtn);
+                        dialog.Controls.Add(skipBtn);
+                        dialog.Controls.Add(cancelBtn);
+                        dialog.Show();
+                    }
+
+                    if (result != ErrorDialogResult.Retry) break;
+                }
+
+                if (result == ErrorDialogResult.Cancel) break;
             }
         }
 
