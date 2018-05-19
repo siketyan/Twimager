@@ -22,71 +22,77 @@
                     Template="{StaticResource IconButtonTemplate}"
                     FontSize="20"></Button>
         </DockPanel>
-        
-        <ListBox x:Name="AccountsList"
-                 Grid.Row="1"
-                 Background="Transparent"
-                 BorderThickness="0"
-                 HorizontalContentAlignment="Stretch"
-                 ItemsSource="{Binding Accounts}">
-            <ListBox.Template>
-                <ControlTemplate TargetType="ItemsControl">
-                    <Border>
-                        <ItemsPresenter />
-                    </Border>
-                </ControlTemplate>
-            </ListBox.Template>
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="ListBoxItem">
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#EEEE" />
-                        </Trigger>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="#DDDD" />
-                        </Trigger>
-                    </Style.Triggers>
-                    
-                    <Setter Property="Padding" Value="0"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type ContentControl}">
-                                <Border Background="{TemplateBinding Background}">
-                                    <ContentPresenter />
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </ListBox.ItemContainerStyle>
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Border Padding="10,5">
-                        <DockPanel>
-                            <Button DockPanel.Dock="Right"
-                                    Template="{StaticResource IconButtonTemplate}"
-                                    FontSize="22"
-                                    Click="UpdateAccount"
-                                    Tag="{Binding Id}"></Button>
-                            <Ellipse Width="48" Height="48" VerticalAlignment="Top">
-                                <Ellipse.Fill>
-                                    <ImageBrush ImageSource="{Binding ProfileImageUrl}"/>
-                                </Ellipse.Fill>
-                            </Ellipse>
-                            <StackPanel Margin="10,4">
-                                <Label FontSize="16" Padding="0">
-                                    <TextBlock TextTrimming="CharacterEllipsis"
-                                               Text="{Binding Name}" />
-                                </Label>
-                                <Label Padding="0,1,0,0">
-                                    <TextBlock TextTrimming="CharacterEllipsis"
-                                               Text="{Binding ScreenName, StringFormat=@{0}}" />
-                                </Label>
-                            </StackPanel>
-                        </DockPanel>
-                    </Border>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+
+        <ScrollViewer Grid.Row="1" Style="{StaticResource CustomScrollViewerStyle}"
+                      HorizontalScrollBarVisibility="Disabled"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalContentAlignment="Stretch">
+            <ListBox x:Name="AccountsList"
+                    Grid.Row="1"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    HorizontalContentAlignment="Stretch"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    ItemsSource="{Binding Accounts}">
+                <ListBox.Template>
+                    <ControlTemplate TargetType="ItemsControl">
+                        <Border>
+                            <ItemsPresenter />
+                        </Border>
+                    </ControlTemplate>
+                </ListBox.Template>
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#EEEE" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="#DDDD" />
+                            </Trigger>
+                        </Style.Triggers>
+
+                        <Setter Property="Padding" Value="0"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ContentControl}">
+                                    <Border Background="{TemplateBinding Background}">
+                                        <ContentPresenter />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border Padding="10,5">
+                            <DockPanel>
+                                <Button DockPanel.Dock="Right"
+                                        Template="{StaticResource IconButtonTemplate}"
+                                        FontSize="22"
+                                        Click="UpdateAccount"
+                                        Tag="{Binding Id}"></Button>
+                                <Ellipse Width="48" Height="48" VerticalAlignment="Top">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="{Binding ProfileImageUrl}"/>
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                                <StackPanel Margin="10,4">
+                                    <Label FontSize="16" Padding="0">
+                                        <TextBlock TextTrimming="CharacterEllipsis"
+                                                   Text="{Binding Name}" />
+                                    </Label>
+                                    <Label Padding="0,1,0,0">
+                                        <TextBlock TextTrimming="CharacterEllipsis"
+                                                   Text="{Binding ScreenName, StringFormat=@{0}}" />
+                                    </Label>
+                                </StackPanel>
+                            </DockPanel>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </ScrollViewer>
     </Grid>
 </Window>
