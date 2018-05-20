@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using System.Windows;
 using Twimager.Enums;
 using Twimager.Objects;
 using Forms = System.Windows.Forms;
@@ -48,19 +47,23 @@ namespace Twimager.Windows
             DataContext = this;
         }
 
-        public void ShowWithPosition()
+        public void ShowAndUpdate()
+        {
+            SetPosition();
+            Show();
+            UpdateAsync();
+        }
+
+        private void SetPosition()
         {
             var screen = Forms.Screen.PrimaryScreen;
             var area = screen.WorkingArea;
 
             Left = area.Right - Width - WindowMargin;
             Top = area.Bottom - Height - WindowMargin;
-
-            Show();
-            UpdateAsync(null, null);
         }
 
-        private async void UpdateAsync(object sender, RoutedEventArgs e)
+        private async void UpdateAsync()
         {
             var dir = $"{Destination}/{Account.ScreenName}";
             if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);

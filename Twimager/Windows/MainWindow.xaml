@@ -22,6 +22,10 @@
             <Button DockPanel.Dock="Right"
                     Template="{StaticResource IconButtonTemplate}"
                     FontSize="20"></Button>
+            <Button DockPanel.Dock="Right"
+                    Template="{StaticResource IconButtonTemplate}"
+                    FontSize="22"
+                    Click="UpdateAll"></Button>
         </DockPanel>
 
         <ScrollViewer Grid.Row="1" Style="{StaticResource CustomScrollViewerStyle}"

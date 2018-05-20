@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,6 +15,7 @@ namespace Twimager.Windows
     {
         public ObservableCollection<Account> Accounts { get; }
 
+        private int _current;
         private App _app;
 
         public MainWindow()
@@ -51,7 +53,29 @@ namespace Twimager.Windows
             var id = (long)(sender as Control).Tag;
             var account = Accounts.FirstOrDefault(x => x.Id == id);
 
-            new UpdateWindow(account, UpdateType.Past).ShowWithPosition();
+            new UpdateWindow(account, UpdateType.Past).ShowAndUpdate();
+        }
+
+        private void UpdateAll(object sender, RoutedEventArgs e)
+        {
+            _current = 0;
+            UpdateNext();
+        }
+
+        private void UpdateNext()
+        {
+            var account = Accounts[_current];
+            var window = new UpdateWindow(account, UpdateType.Past);
+            if (_current < Accounts.Count - 1)
+            {
+                window.Closing += (sender, e) =>
+                {
+                    UpdateNext();
+                };
+            }
+
+            window.ShowAndUpdate();
+            _current++;
         }
     }
 }
