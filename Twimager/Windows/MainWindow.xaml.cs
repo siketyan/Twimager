@@ -52,7 +52,7 @@ namespace Twimager.Windows
             var id = (long)(sender as Control).Tag;
             var account = Accounts.FirstOrDefault(x => x.Id == id);
 
-            new UpdateWindow(account, UpdateType.Past).ShowAndUpdate();
+            new UpdateWindow(account).ShowAndUpdate();
         }
 
         private void UpdateAll(object sender, RoutedEventArgs e)
@@ -64,7 +64,7 @@ namespace Twimager.Windows
         private void UpdateNext()
         {
             var account = Accounts[_current];
-            var window = new UpdateWindow(account, UpdateType.Past);
+            var window = new UpdateWindow(account);
             if (_current < Accounts.Count - 1)
             {
                 window.Closing += (sender, e) =>

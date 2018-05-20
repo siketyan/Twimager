@@ -34,15 +34,13 @@ namespace Twimager.Windows
 
         private string _status = "Initializing...";
         private Tokens _twitter;
-        private UpdateType _type;
 
-        public UpdateWindow(Account account, UpdateType type)
+        public UpdateWindow(Account account)
         {
             InitializeComponent();
 
             Account = account;
             _twitter = App.GetCurrent().Twitter;
-            _type = type;
 
             DataContext = this;
         }
