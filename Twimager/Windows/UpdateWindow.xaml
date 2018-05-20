@@ -7,7 +7,7 @@
         Title="StatusWindow" Width="334" Height="96"
         WindowStyle="None" AllowsTransparency="True"
         BorderBrush="#39F" BorderThickness="1"
-        Topmost="True">
+        Topmost="True" ShowInTaskbar="False">
     <Grid>
         <StackPanel Margin="15,10">
             <DockPanel>
