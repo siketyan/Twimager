@@ -31,6 +31,7 @@ namespace Twimager.Windows
         }
 
         public Account Account { get; }
+        public ITracking Tracking { get; }
 
         private string _status = "Initializing...";
         private Tokens _twitter;
@@ -40,6 +41,16 @@ namespace Twimager.Windows
             InitializeComponent();
 
             Account = account;
+            _twitter = App.GetCurrent().Twitter;
+
+            DataContext = this;
+        }
+
+        public UpdateWindow(ITracking tracking)
+        {
+            InitializeComponent();
+
+            Tracking = tracking;
             _twitter = App.GetCurrent().Twitter;
 
             DataContext = this;
@@ -68,60 +79,14 @@ namespace Twimager.Windows
 
             using (var wc = new WebClient())
             {
-                if (Account.Latest == null)
+                while (true)
                 {
-                    long? oldest = null;
-                    var isFirst = true;
-                    while (true)
+                    var statuses = await Tracking.GetStatusesAsync();
+                    if (statuses == null) break;
+
+                    foreach (var status in statuses)
                     {
-                        Status = "Loading timeline...";
-
-                        var statuses = await _twitter.Statuses.UserTimelineAsync(
-                            Account.Id,
-                            200,
-                            trim_user: true,
-                            exclude_replies: false,
-                            include_rts: false,
-                            max_id: oldest
-                        );
-                        
-                        if (statuses.Count <= 1) break;
-                        foreach (var status in statuses)
-                        {
-                            if (await DownloadMediaAsync(wc, status, dir)) return;
-                        }
-
-                        oldest = statuses.Last().Id;
-
-                        if (isFirst)
-                        {
-                            Account.Latest = statuses.First().Id;
-                            isFirst = false;
-                        }
-                    }
-                }
-                else
-                {
-                    while (true)
-                    {
-                        Status = "Loading timeline...";
-
-                        var statuses = await _twitter.Statuses.UserTimelineAsync(
-                            Account.Id,
-                            200,
-                            trim_user: true,
-                            exclude_replies: false,
-                            include_rts: false,
-                            since_id: Account.Latest
-                        );
-                        
-                        if (!statuses.Any()) break;
-                        foreach (var status in statuses)
-                        {
-                            if (await DownloadMediaAsync(wc, status, dir)) return;
-                        }
-
-                        Account.Latest = statuses.First().Id;
+                        await DownloadMediaAsync(wc, status, Destination);
                     }
                 }
             }
