@@ -26,7 +26,7 @@ namespace Twimager.Resources
 ```
 
 ## Open Source Software License
-- [Newtonsoft.Json (Json.NET)](https://github.com/JamesNK/Newtonsoft.Json/blob/master/LICENSE.md)
+- [Newtonsoft.Json (Json.NET)](https://github.com/JamesNK/Newtonsoft.Json)
   > The MIT License (MIT)
   > 
   > Copyright (c) 2007 James Newton-King

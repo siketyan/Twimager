@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using Twimager.Enums;
 using Twimager.Objects;
 
 namespace Twimager.Windows
