@@ -4,9 +4,9 @@ using System.ComponentModel;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using System.Windows;
 using Twimager.Enums;
 using Twimager.Objects;
-using Forms = System.Windows.Forms;
 
 namespace Twimager.Windows
 {
@@ -53,8 +53,7 @@ namespace Twimager.Windows
 
         private void SetPosition()
         {
-            var screen = Forms.Screen.PrimaryScreen;
-            var area = screen.WorkingArea;
+            var area = SystemParameters.WorkArea;
 
             Left = area.Right - Width - WindowMargin;
             Top = area.Bottom - Height - WindowMargin;
