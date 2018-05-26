@@ -73,7 +73,7 @@
                     </Style>
                 </ListBox.ItemContainerStyle>
                 <ListBox.ItemTemplate>
-                    <DataTemplate DataType="{x:Type obj:Account}">
+                    <DataTemplate DataType="{x:Type obj:AccountTracking}">
                         <Border Padding="10,5">
                             <DockPanel>
                                 <Button DockPanel.Dock="Right"

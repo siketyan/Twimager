@@ -8,7 +8,7 @@ namespace Twimager.Windows
     /// </summary>
     public partial class AccountAddWindow
     {
-        public Account Account { get; private set; }
+        public AccountTracking Account { get; private set; }
 
         public AccountAddWindow()
         {
@@ -22,7 +22,7 @@ namespace Twimager.Windows
                 var screenName = ScreenName.Text;
                 var user = await App.GetCurrent().Twitter.Users.ShowAsync(screenName);
 
-                Account = new Account
+                Account = new AccountTracking
                 {
                     Id = (long)user.Id,
                     ScreenName = user.ScreenName,

@@ -39,7 +39,7 @@
                 <ContentControl.Style>
                     <Style TargetType="{x:Type ContentControl}">
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding Tracking, Converter={StaticResource ObjectType}}" Value="Account">
+                            <DataTrigger Binding="{Binding Tracking, Converter={StaticResource ObjectType}}" Value="AccountTracking">
                                 <Setter Property="ContentTemplate" Value="{StaticResource AccountTemplate}" />
                             </DataTrigger>
                         </Style.Triggers>

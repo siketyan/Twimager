@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace Twimager.Objects
 {
-    public class Account : ITracking
+    public class AccountTracking : ITracking
     {
         private const string DirectoryBase = "Accounts";
 
