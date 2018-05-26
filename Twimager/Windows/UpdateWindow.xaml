@@ -3,30 +3,49 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:conv="clr-namespace:Twimager.Converters"
         mc:Ignorable="d"
         Title="StatusWindow" Width="334" Height="96"
         WindowStyle="None" AllowsTransparency="True"
         BorderBrush="#39F" BorderThickness="1"
         Topmost="True" ShowInTaskbar="False">
-    <Grid>
-        <StackPanel Margin="15,10">
+    <Window.Resources>
+        <conv:ObjectTypeConverter x:Key="ObjectType" />
+        
+        <DataTemplate x:Key="AccountTemplate">
             <DockPanel>
                 <Ellipse Width="48" Height="48" VerticalAlignment="Top">
                     <Ellipse.Fill>
-                        <ImageBrush ImageSource="{Binding Account.ProfileImageUrl}"/>
+                        <ImageBrush ImageSource="{Binding ProfileImageUrl}"/>
                     </Ellipse.Fill>
                 </Ellipse>
                 <StackPanel Margin="10,4">
                     <Label FontSize="16" Padding="0">
                         <TextBlock TextTrimming="CharacterEllipsis"
-                                   Text="{Binding Account.Name}" />
+                                   Text="{Binding Name}" />
                     </Label>
                     <Label Padding="0,1,0,0">
                         <TextBlock TextTrimming="CharacterEllipsis"
-                                   Text="{Binding Account.ScreenName, StringFormat=@{0}}" />
+                                   Text="{Binding ScreenName, StringFormat=@{0}}" />
                     </Label>
                 </StackPanel>
             </DockPanel>
+        </DataTemplate>
+    </Window.Resources>
+    
+    <Grid>
+        <StackPanel Margin="15,10">
+            <ContentControl Content="{Binding Tracking}">
+                <ContentControl.Style>
+                    <Style TargetType="{x:Type ContentControl}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Tracking, Converter={StaticResource ObjectType}}" Value="Account">
+                                <Setter Property="ContentTemplate" Value="{StaticResource AccountTemplate}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ContentControl.Style>
+            </ContentControl>
             <Label Content="{Binding Status}" />
         </StackPanel>
     </Grid>
