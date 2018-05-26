@@ -13,7 +13,9 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <DockPanel LastChildFill="False">
+        <DockPanel LastChildFill="False"
+                   Background="Transparent"
+                   MouseLeftButtonDown="Deselect">
             <Button Template="{StaticResource IconButtonTemplate}"
                     FontSize="22"
                     Click="AddAccount"></Button>
@@ -33,7 +35,7 @@
                       HorizontalScrollBarVisibility="Disabled"
                       VerticalScrollBarVisibility="Auto"
                       HorizontalContentAlignment="Stretch">
-            <ListBox x:Name="AccountsList"
+            <ListBox x:Name="TrackingsList"
                     Grid.Row="1"
                     Background="Transparent"
                     BorderThickness="0"

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using Twimager.Objects;
 
 namespace Twimager.Windows
@@ -39,7 +40,7 @@ namespace Twimager.Windows
 
         private void RemoveAccount(object sender, RoutedEventArgs e)
         {
-            var account = AccountsList.SelectedItem;
+            var account = TrackingsList.SelectedItem;
             if (account == null) return;
 
             Trackings.Remove(account as Account);
@@ -74,6 +75,11 @@ namespace Twimager.Windows
 
             window.ShowAndUpdate();
             _current++;
+        }
+
+        private void Deselect(object sender, MouseButtonEventArgs e)
+        {
+            TrackingsList.SelectedItem = null;
         }
     }
 }
