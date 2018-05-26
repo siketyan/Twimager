@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using Microsoft.WindowsAPICodePack.Dialogs;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -55,6 +57,21 @@ namespace Twimager.Windows
 
         private void UpdateAll(object sender, RoutedEventArgs e)
         {
+            if (!Trackings.Any())
+            {
+                var dialog = new TaskDialog
+                {
+                    Icon = TaskDialogStandardIcon.Error,
+                    StandardButtons = TaskDialogStandardButtons.Ok,
+                    Caption = "Twimager",
+                    InstructionText = "Couldn't find any trackings.",
+                    Text = "You have to add tracking(s) before update."
+                };
+
+                dialog.Show();
+                return;
+            }
+
             _current = 0;
             UpdateNext();
         }
