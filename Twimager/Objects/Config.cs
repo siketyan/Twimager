@@ -9,9 +9,9 @@ namespace Twimager.Objects
         [JsonProperty("credentials")]
         public Credentials Credentials { get; set; }
 
-        [JsonProperty("accounts")]
-        public ObservableCollection<Account> Accounts { get; set; }
-            = new ObservableCollection<Account>();
+        [JsonProperty("trackings")]
+        public ObservableCollection<ITracking> Trackings { get; set; }
+            = new ObservableCollection<ITracking>();
 
 
         [JsonIgnore]
@@ -28,9 +28,12 @@ namespace Twimager.Objects
             try
             {
                 var json = File.ReadAllText(path);
-                var config = JsonConvert.DeserializeObject<Config>(json);
-                config._path = path;
+                var config = JsonConvert.DeserializeObject<Config>(json, new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.Auto
+                });
 
+                config._path = path;
                 return config;
             }
             catch (FileNotFoundException)
@@ -41,7 +44,11 @@ namespace Twimager.Objects
 
         public void Save()
         {
-            var json = JsonConvert.SerializeObject(this);
+            var json = JsonConvert.SerializeObject(this, new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Objects
+            });
+
             File.WriteAllText(_path, json);
         }
     }

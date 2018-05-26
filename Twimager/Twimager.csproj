@@ -21,7 +21,7 @@
     <UpdatePackageVersion>False</UpdatePackageVersion>
     <AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
     <InheritWinAppVersionFrom>AssemblyVersion</InheritWinAppVersionFrom>
-    <ApplicationVersion>0.1.0.13</ApplicationVersion>
+    <ApplicationVersion>0.1.0.25</ApplicationVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>

@@ -28,23 +28,12 @@ namespace Twimager.Windows
                 OnPropertyChanged("Status");
             }
         }
-
-        public Account Account { get; }
+        
         public ITracking Tracking { get; }
 
         private string _status = "Initializing...";
         private Tokens _twitter;
-
-        public UpdateWindow(Account account)
-        {
-            InitializeComponent();
-
-            Account = account;
-            _twitter = App.GetCurrent().Twitter;
-
-            DataContext = this;
-        }
-
+        
         public UpdateWindow(ITracking tracking)
         {
             InitializeComponent();
@@ -73,7 +62,7 @@ namespace Twimager.Windows
 
         private async void UpdateAsync()
         {
-            var dir = $"{Destination}/{Account.ScreenName}";
+            var dir = $"{Destination}/{(Tracking as Account).ScreenName}";
             if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
 
             using (var wc = new WebClient())

@@ -23,14 +23,14 @@ namespace Twimager.Objects
         [JsonProperty("latest")]
         public long? Latest { get; set; }
 
+
+        private Tokens Twitter
+        {
+            get => App.GetCurrent().Twitter;
+        }
+
         private long? _oldest;
         private long? _latest;
-        private Tokens _twitter;
-
-        public Account()
-        {
-            _twitter = App.GetCurrent().Twitter;
-        }
 
         public async Task<ListedResponse<Status>> GetStatusesAsync()
         {
@@ -38,7 +38,7 @@ namespace Twimager.Objects
 
             if (Latest == null)
             {
-                statuses = await _twitter.Statuses.UserTimelineAsync(
+                statuses = await Twitter.Statuses.UserTimelineAsync(
                     Id,
                     200,
                     trim_user: true,
@@ -47,24 +47,33 @@ namespace Twimager.Objects
                     max_id: _oldest
                 );
 
+                if (_latest == null) _latest = statuses.First().Id;
                 if (statuses.Count <= 1)
                 {
                     Latest = _latest;
                     return null;
                 }
+
+                _oldest = statuses.Last().Id;
             }
             else
             {
-                statuses = await _twitter.Statuses.UserTimelineAsync(
+                statuses = await Twitter.Statuses.UserTimelineAsync(
                     Id,
                     200,
                     trim_user: true,
                     exclude_replies: false,
                     include_rts: false,
-                    since_id: Latest
+                    since_id: _latest
                 );
+                
+                if (!statuses.Any())
+                {
+                    Latest = _latest;
+                    return null;
+                }
 
-                if (!statuses.Any()) return null;
+                _latest = statuses.First().Id;
             }
 
             return statuses;

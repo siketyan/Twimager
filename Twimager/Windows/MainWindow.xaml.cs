@@ -11,7 +11,7 @@ namespace Twimager.Windows
     /// </summary>
     public partial class MainWindow
     {
-        public ObservableCollection<Account> Accounts { get; }
+        public ObservableCollection<ITracking> Trackings { get; }
 
         private int _current;
         private App _app;
@@ -21,7 +21,7 @@ namespace Twimager.Windows
             InitializeComponent();
 
             _app = App.GetCurrent();
-            Accounts = _app.Config.Accounts;
+            Trackings = _app.Config.Trackings;
 
             DataContext = this;
         }
@@ -33,7 +33,7 @@ namespace Twimager.Windows
 
             if (window.Account == null) return;
 
-            Accounts.Add(window.Account);
+            Trackings.Add(window.Account);
             _app.Config.Save();
         }
 
@@ -42,14 +42,14 @@ namespace Twimager.Windows
             var account = AccountsList.SelectedItem;
             if (account == null) return;
 
-            Accounts.Remove(account as Account);
+            Trackings.Remove(account as Account);
             _app.Config.Save();
         }
 
         private void UpdateAccount(object sender, RoutedEventArgs e)
         {
             var id = (long)(sender as Control).Tag;
-            var account = Accounts.FirstOrDefault(x => x.Id == id);
+            var account = Trackings.FirstOrDefault(x => (x as Account).Id == id);
 
             new UpdateWindow(account).ShowAndUpdate();
         }
@@ -62,9 +62,9 @@ namespace Twimager.Windows
 
         private void UpdateNext()
         {
-            var account = Accounts[_current];
+            var account = Trackings[_current];
             var window = new UpdateWindow(account);
-            if (_current < Accounts.Count - 1)
+            if (_current < Trackings.Count - 1)
             {
                 window.Closing += (sender, e) =>
                 {
