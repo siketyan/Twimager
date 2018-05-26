@@ -26,6 +26,7 @@ namespace Twimager.Objects
         [JsonProperty("latest")]
         public long? Latest { get; set; }
 
+        [JsonIgnore]
         public string Directory { get => $"{DirectoryBase}/{Id}"; }
 
 
