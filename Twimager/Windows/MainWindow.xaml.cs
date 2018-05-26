@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -41,18 +40,17 @@ namespace Twimager.Windows
         private void RemoveAccount(object sender, RoutedEventArgs e)
         {
             var account = TrackingsList.SelectedItem;
-            if (account == null) return;
+            if (account == null || !(account is ITracking)) return;
 
-            Trackings.Remove(account as Account);
+            Trackings.Remove(account as ITracking);
             _app.Config.Save();
         }
 
         private void UpdateAccount(object sender, RoutedEventArgs e)
         {
-            var id = (long)(sender as Control).Tag;
-            var account = Trackings.FirstOrDefault(x => (x as Account).Id == id);
-
-            new UpdateWindow(account).ShowAndUpdate();
+            new UpdateWindow(
+                (sender as Button).Tag as ITracking
+            ).ShowAndUpdate();
         }
 
         private void UpdateAll(object sender, RoutedEventArgs e)
@@ -63,8 +61,8 @@ namespace Twimager.Windows
 
         private void UpdateNext()
         {
-            var account = Trackings[_current];
-            var window = new UpdateWindow(account);
+            var tracking = Trackings[_current];
+            var window = new UpdateWindow(tracking);
             if (_current < Trackings.Count - 1)
             {
                 window.Closing += (sender, e) =>

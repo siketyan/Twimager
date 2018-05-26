@@ -80,7 +80,7 @@
                                         Template="{StaticResource IconButtonTemplate}"
                                         FontSize="22"
                                         Click="UpdateAccount"
-                                        Tag="{Binding Id}"></Button>
+                                        Tag="{Binding}"></Button>
                                 <Ellipse Width="48" Height="48" VerticalAlignment="Top">
                                     <Ellipse.Fill>
                                         <ImageBrush ImageSource="{Binding ProfileImageUrl}"/>
