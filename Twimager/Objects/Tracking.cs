@@ -7,6 +7,7 @@ namespace Twimager.Objects
     public interface ITracking
     {
         long? Latest { get; set; }
+        string Directory { get; }
 
         Task<ListedResponse<Status>> GetStatusesAsync();
     }

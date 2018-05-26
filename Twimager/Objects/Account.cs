@@ -8,6 +8,9 @@ namespace Twimager.Objects
 {
     public class Account : ITracking
     {
+        private const string DirectoryBase = "Accounts";
+
+
         [JsonProperty("id")]
         public long Id { get; set; }
 
@@ -22,6 +25,8 @@ namespace Twimager.Objects
 
         [JsonProperty("latest")]
         public long? Latest { get; set; }
+
+        public string Directory { get => $"{DirectoryBase}/{Id}"; }
 
 
         private Tokens Twitter

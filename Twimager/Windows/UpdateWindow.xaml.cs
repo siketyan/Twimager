@@ -62,7 +62,7 @@ namespace Twimager.Windows
 
         private async void UpdateAsync()
         {
-            var dir = $"{Destination}/{(Tracking as Account).ScreenName}";
+            var dir = $"{Destination}/{Tracking.Directory}";
             if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
 
             using (var wc = new WebClient())
@@ -74,7 +74,7 @@ namespace Twimager.Windows
 
                     foreach (var status in statuses)
                     {
-                        await DownloadMediaAsync(wc, status, Destination);
+                        await DownloadMediaAsync(wc, status, dir);
                     }
                 }
             }
