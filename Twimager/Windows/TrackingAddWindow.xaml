@@ -4,20 +4,24 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Add a tracking" Width="256" Height="96"
+        Title="Add a tracking" Width="285" Height="145"
         ResizeMode="NoResize">
     <Grid>
-        <DockPanel Margin="15,10">
-            <Button DockPanel.Dock="Right"
-                    Template="{StaticResource IconButtonTemplate}"
-                    FontSize="22"
-                    Click="AddAccountTrackingAsync"></Button>
-            <Label VerticalContentAlignment="Center">@</Label>
-            <TextBox x:Name="ScreenName"
-                     Height="24"
-                     Margin="5"
-                     Padding="5,0"
-                     VerticalContentAlignment="Center"></TextBox>
-        </DockPanel>
+        <TabControl Margin="15,10">
+            <TabItem Header="Account">
+                <DockPanel Margin="15,10">
+                    <Button DockPanel.Dock="Right"
+                        Template="{StaticResource IconButtonTemplate}"
+                        FontSize="22"
+                        Click="AddAccountTrackingAsync"></Button>
+                    <Label VerticalContentAlignment="Center">@</Label>
+                    <TextBox x:Name="ScreenName"
+                        Height="24"
+                        Margin="5"
+                        Padding="5,0"
+                        VerticalContentAlignment="Center"></TextBox>
+                </DockPanel>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
