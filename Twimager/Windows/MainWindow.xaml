@@ -4,9 +4,39 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:obj="clr-namespace:Twimager.Objects"
+        xmlns:conv="clr-namespace:Twimager.Converters"
         mc:Ignorable="d"
         Title="Twimager" Width="334" Height="420"
         Icon="../Resources/Icon.ico">
+    <Window.Resources>
+        <conv:ObjectTypeConverter x:Key="ObjectType" />
+        <DataTemplate x:Key="AccountTemplate">
+            <Border Padding="10,5">
+                <DockPanel>
+                    <Button DockPanel.Dock="Right"
+                            Template="{StaticResource IconButtonTemplate}"
+                            FontSize="22"
+                            Click="UpdateAccount"
+                            Tag="{Binding}"></Button>
+                    <Ellipse Width="48" Height="48" VerticalAlignment="Top">
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="{Binding ProfileImageUrl}"/>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <StackPanel Margin="10,4">
+                        <Label FontSize="16" Padding="0">
+                            <TextBlock TextTrimming="CharacterEllipsis"
+                                       Text="{Binding Name}" />
+                        </Label>
+                        <Label Padding="0,1,0,0">
+                            <TextBlock TextTrimming="CharacterEllipsis"
+                                       Text="{Binding ScreenName, StringFormat=@{0}}" />
+                        </Label>
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+        </DataTemplate>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="32" />
@@ -73,31 +103,18 @@
                     </Style>
                 </ListBox.ItemContainerStyle>
                 <ListBox.ItemTemplate>
-                    <DataTemplate DataType="{x:Type obj:AccountTracking}">
-                        <Border Padding="10,5">
-                            <DockPanel>
-                                <Button DockPanel.Dock="Right"
-                                        Template="{StaticResource IconButtonTemplate}"
-                                        FontSize="22"
-                                        Click="UpdateAccount"
-                                        Tag="{Binding}"></Button>
-                                <Ellipse Width="48" Height="48" VerticalAlignment="Top">
-                                    <Ellipse.Fill>
-                                        <ImageBrush ImageSource="{Binding ProfileImageUrl}"/>
-                                    </Ellipse.Fill>
-                                </Ellipse>
-                                <StackPanel Margin="10,4">
-                                    <Label FontSize="16" Padding="0">
-                                        <TextBlock TextTrimming="CharacterEllipsis"
-                                                   Text="{Binding Name}" />
-                                    </Label>
-                                    <Label Padding="0,1,0,0">
-                                        <TextBlock TextTrimming="CharacterEllipsis"
-                                                   Text="{Binding ScreenName, StringFormat=@{0}}" />
-                                    </Label>
-                                </StackPanel>
-                            </DockPanel>
-                        </Border>
+                    <DataTemplate>
+                        <ContentControl Content="{Binding}">
+                            <ContentControl.Style>
+                                <Style TargetType="{x:Type ContentControl}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Converter={StaticResource ObjectType}}" Value="AccountTracking">
+                                            <Setter Property="ContentTemplate" Value="{StaticResource AccountTemplate}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ContentControl.Style>
+                        </ContentControl>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
