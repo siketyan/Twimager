@@ -1,17 +1,17 @@
-﻿<Window x:Class="Twimager.Windows.AccountAddWindow"
+﻿<Window x:Class="Twimager.Windows.TrackingAddWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Add a account" Width="256" Height="96"
+        Title="Add a tracking" Width="256" Height="96"
         ResizeMode="NoResize">
     <Grid>
         <DockPanel Margin="15,10">
             <Button DockPanel.Dock="Right"
                     Template="{StaticResource IconButtonTemplate}"
                     FontSize="22"
-                    Click="AddAsync"></Button>
+                    Click="AddAccountTrackingAsync"></Button>
             <Label VerticalContentAlignment="Center">@</Label>
             <TextBox x:Name="ScreenName"
                      Height="24"

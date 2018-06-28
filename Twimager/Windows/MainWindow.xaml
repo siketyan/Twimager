@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:obj="clr-namespace:Twimager.Objects"
         xmlns:conv="clr-namespace:Twimager.Converters"
         mc:Ignorable="d"
         Title="Twimager" Width="334" Height="420"
@@ -16,7 +15,7 @@
                     <Button DockPanel.Dock="Right"
                             Template="{StaticResource IconButtonTemplate}"
                             FontSize="22"
-                            Click="UpdateAccount"
+                            Click="UpdateTracking"
                             Tag="{Binding}"></Button>
                     <Ellipse Width="48" Height="48" VerticalAlignment="Top">
                         <Ellipse.Fill>
@@ -48,10 +47,10 @@
                    MouseLeftButtonDown="Deselect">
             <Button Template="{StaticResource IconButtonTemplate}"
                     FontSize="22"
-                    Click="AddAccount"></Button>
+                    Click="AddTracking"></Button>
             <Button Template="{StaticResource IconButtonTemplate}"
                     FontSize="22"
-                    Click="RemoveAccount"></Button>
+                    Click="RemoveTracking"></Button>
             <Button DockPanel.Dock="Right"
                     Template="{StaticResource IconButtonTemplate}"
                     FontSize="20"></Button>

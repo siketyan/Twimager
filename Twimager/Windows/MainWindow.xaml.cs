@@ -28,9 +28,9 @@ namespace Twimager.Windows
             DataContext = this;
         }
 
-        private void AddAccount(object sender, RoutedEventArgs e)
+        private void AddTracking(object sender, RoutedEventArgs e)
         {
-            var window = new AccountAddWindow();
+            var window = new TrackingAddWindow();
             window.ShowDialog();
 
             if (window.Account == null) return;
@@ -39,16 +39,16 @@ namespace Twimager.Windows
             _app.Config.Save();
         }
 
-        private void RemoveAccount(object sender, RoutedEventArgs e)
+        private void RemoveTracking(object sender, RoutedEventArgs e)
         {
-            var account = TrackingsList.SelectedItem;
-            if (account == null || !(account is ITracking)) return;
+            var tracking = TrackingsList.SelectedItem;
+            if (tracking == null || !(tracking is ITracking)) return;
 
-            Trackings.Remove(account as ITracking);
+            Trackings.Remove(tracking as ITracking);
             _app.Config.Save();
         }
 
-        private void UpdateAccount(object sender, RoutedEventArgs e)
+        private void UpdateTracking(object sender, RoutedEventArgs e)
         {
             new UpdateWindow(
                 (sender as Button).Tag as ITracking

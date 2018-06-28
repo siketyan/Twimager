@@ -6,16 +6,16 @@ namespace Twimager.Windows
     /// <summary>
     /// AccountAddWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class AccountAddWindow
+    public partial class TrackingAddWindow
     {
         public AccountTracking Account { get; private set; }
 
-        public AccountAddWindow()
+        public TrackingAddWindow()
         {
             InitializeComponent();
         }
 
-        private async void AddAsync(object sender, RoutedEventArgs e)
+        private async void AddAccountTrackingAsync(object sender, RoutedEventArgs e)
         {
             try
             {

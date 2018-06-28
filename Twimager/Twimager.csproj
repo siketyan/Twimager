@@ -92,7 +92,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\AccountAddWindow.xaml">
+    <Page Include="Windows\TrackingAddWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -113,8 +113,8 @@
     <Compile Include="Objects\Credentials.cs" />
     <Compile Include="Resources\TwitterKeys.Template.cs" />
     <Compile Include="Resources\TwitterKeys.cs" />
-    <Compile Include="Windows\AccountAddWindow.xaml.cs">
-      <DependentUpon>AccountAddWindow.xaml</DependentUpon>
+    <Compile Include="Windows\TrackingAddWindow.xaml.cs">
+      <DependentUpon>TrackingAddWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\AuthWindow.xaml.cs">
       <DependentUpon>AuthWindow.xaml</DependentUpon>
