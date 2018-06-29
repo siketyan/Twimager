@@ -11,15 +11,28 @@
             <TabItem Header="Account">
                 <DockPanel Margin="15,10">
                     <Button DockPanel.Dock="Right"
-                        Template="{StaticResource IconButtonTemplate}"
-                        FontSize="22"
-                        Click="AddAccountTrackingAsync"></Button>
+                            Template="{StaticResource IconButtonTemplate}"
+                            FontSize="22"
+                            Click="AddAccountTrackingAsync"></Button>
                     <Label VerticalContentAlignment="Center">@</Label>
                     <TextBox x:Name="ScreenName"
-                        Height="24"
-                        Margin="5"
-                        Padding="5,0"
-                        VerticalContentAlignment="Center"></TextBox>
+                             Height="24"
+                             Margin="5"
+                             Padding="5,0"
+                             VerticalContentAlignment="Center"></TextBox>
+                </DockPanel>
+            </TabItem>
+            <TabItem Header="List">
+                <DockPanel Margin="15,10">
+                    <Button DockPanel.Dock="Right"
+                            Template="{StaticResource IconButtonTemplate}"
+                            FontSize="22"
+                            Click="AddListTrackingAsync"></Button>
+                    <ComboBox x:Name="ListName"
+                              Height="24"
+                              Margin="5"
+                              Padding="5,0"
+                              VerticalContentAlignment="Center"></ComboBox>
                 </DockPanel>
             </TabItem>
         </TabControl>

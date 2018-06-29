@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using CoreTweet;
+using System.Collections.ObjectModel;
+using System.Windows;
 using Twimager.Objects;
 
 namespace Twimager.Windows
@@ -9,10 +11,17 @@ namespace Twimager.Windows
     public partial class TrackingAddWindow
     {
         public AccountTracking Account { get; private set; }
+        public ObservableCollection<List> Lists { get; private set; }
 
         public TrackingAddWindow()
         {
             InitializeComponent();
+        }
+
+        private async void InitAsync(object sender, RoutedEventArgs e)
+        {
+            var lists = await App.GetCurrent().Twitter.Lists.ListAsync();
+            Lists = new ObservableCollection<List>(lists);
         }
 
         private async void AddAccountTrackingAsync(object sender, RoutedEventArgs e)
