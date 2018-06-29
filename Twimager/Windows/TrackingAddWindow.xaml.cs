@@ -47,7 +47,17 @@ namespace Twimager.Windows
             }
             catch
             {
-                // TODO: User not found
+                var dialog = new TaskDialog
+                {
+                    Icon = TaskDialogStandardIcon.Error,
+                    StandardButtons = TaskDialogStandardButtons.Ok,
+                    Caption = "Twimager",
+                    InstructionText = "The user is not found.",
+                    Text = "You have to put screen name of the user that exists into the box."
+                };
+
+                dialog.Show();
+                return;
             }
 
             Close();
