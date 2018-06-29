@@ -33,9 +33,9 @@ namespace Twimager.Windows
             var window = new TrackingAddWindow();
             window.ShowDialog();
 
-            if (window.Account == null) return;
+            if (window.Tracking == null) return;
 
-            Trackings.Add(window.Account);
+            Trackings.Add(window.Tracking);
             _app.Config.Save();
         }
 

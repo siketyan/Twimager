@@ -21,7 +21,7 @@
     <UpdatePackageVersion>False</UpdatePackageVersion>
     <AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
     <InheritWinAppVersionFrom>AssemblyVersion</InheritWinAppVersionFrom>
-    <ApplicationVersion>0.1.0.52</ApplicationVersion>
+    <ApplicationVersion>0.1.0.68</ApplicationVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -85,6 +85,7 @@
     <Compile Include="Converters\ObjectTypeConverter.cs" />
     <Compile Include="Enums\ErrorDialogResult.cs" />
     <Compile Include="Objects\ITracking.cs" />
+    <Compile Include="Objects\ListTracking.cs" />
     <Compile Include="Windows\UpdateWindow.xaml.cs">
       <DependentUpon>UpdateWindow.xaml</DependentUpon>
     </Compile>

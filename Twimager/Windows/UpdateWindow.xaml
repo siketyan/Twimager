@@ -31,6 +31,29 @@
                 </StackPanel>
             </DockPanel>
         </DataTemplate>
+
+        <DataTemplate x:Key="ListTemplate">
+            <DockPanel>
+                <Grid>
+                    <Ellipse Width="48" Height="48" Fill="#DDD" VerticalAlignment="Top" />
+                    <Label Foreground="#555"
+                           FontSize="22"
+                           FontFamily="../Resources/#Material Icons"
+                           VerticalContentAlignment="Center"
+                           HorizontalContentAlignment="Center"></Label>
+                </Grid>
+                <StackPanel Margin="10,4">
+                    <Label FontSize="16" Padding="0">
+                        <TextBlock TextTrimming="CharacterEllipsis"
+                                   Text="{Binding Name}" />
+                    </Label>
+                    <Label Padding="0,1,0,0">
+                        <TextBlock TextTrimming="CharacterEllipsis"
+                                   Text="{Binding FullName}" />
+                    </Label>
+                </StackPanel>
+            </DockPanel>
+        </DataTemplate>
     </Window.Resources>
     
     <Grid>
@@ -41,6 +64,9 @@
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Tracking, Converter={StaticResource ObjectType}}" Value="AccountTracking">
                                 <Setter Property="ContentTemplate" Value="{StaticResource AccountTemplate}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Tracking, Converter={StaticResource ObjectType}}" Value="ListTracking">
+                                <Setter Property="ContentTemplate" Value="{StaticResource ListTemplate}" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>

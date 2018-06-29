@@ -1,6 +1,7 @@
-﻿using CoreTweet;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
+using CoreTweet;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using Twimager.Objects;
 
 namespace Twimager.Windows
@@ -10,18 +11,23 @@ namespace Twimager.Windows
     /// </summary>
     public partial class TrackingAddWindow
     {
-        public AccountTracking Account { get; private set; }
+        public ITracking Tracking { get; private set; }
         public ObservableCollection<List> Lists { get; private set; }
 
         public TrackingAddWindow()
         {
             InitializeComponent();
+
+            Lists = new ObservableCollection<List>();
+            DataContext = this;
         }
 
         private async void InitAsync(object sender, RoutedEventArgs e)
         {
-            var lists = await App.GetCurrent().Twitter.Lists.ListAsync();
-            Lists = new ObservableCollection<List>(lists);
+            foreach (var list in await App.GetCurrent().Twitter.Lists.ListAsync(true))
+            {
+                Lists.Add(list);
+            }
         }
 
         private async void AddAccountTrackingAsync(object sender, RoutedEventArgs e)
@@ -31,7 +37,7 @@ namespace Twimager.Windows
                 var screenName = ScreenName.Text;
                 var user = await App.GetCurrent().Twitter.Users.ShowAsync(screenName);
 
-                Account = new AccountTracking
+                Tracking = new AccountTracking
                 {
                     Id = (long)user.Id,
                     ScreenName = user.ScreenName,
@@ -44,6 +50,35 @@ namespace Twimager.Windows
                 // TODO: User not found
             }
 
+            Close();
+        }
+
+        private void AddListTracking(object sender, RoutedEventArgs e)
+        {
+            var item = ListName.SelectedItem;
+            if (item == null || !(item is List))
+            {
+                var dialog = new TaskDialog
+                {
+                    Icon = TaskDialogStandardIcon.Error,
+                    StandardButtons = TaskDialogStandardButtons.Ok,
+                    Caption = "Twimager",
+                    InstructionText = "List is not selected.",
+                    Text = "You have to select a list from the dropdown box."
+                };
+
+                dialog.Show();
+                return;
+            }
+
+            var list = item as List;
+            Tracking = new ListTracking
+            {
+                Id = list.Id,
+                Name = list.Name,
+                FullName = list.FullName
+            };
+            
             Close();
         }
     }

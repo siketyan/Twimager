@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="Add a tracking" Width="285" Height="145"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize" Loaded="InitAsync">
     <Grid>
         <TabControl Margin="15,10">
             <TabItem Header="Account">
@@ -27,12 +27,14 @@
                     <Button DockPanel.Dock="Right"
                             Template="{StaticResource IconButtonTemplate}"
                             FontSize="22"
-                            Click="AddListTrackingAsync"></Button>
+                            Click="AddListTracking"></Button>
                     <ComboBox x:Name="ListName"
                               Height="24"
                               Margin="5"
                               Padding="5,0"
-                              VerticalContentAlignment="Center"></ComboBox>
+                              VerticalContentAlignment="Center"
+                              DisplayMemberPath="FullName"
+                              ItemsSource="{Binding Lists}"></ComboBox>
                 </DockPanel>
             </TabItem>
         </TabControl>
