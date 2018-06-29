@@ -21,7 +21,7 @@ namespace Twimager
             return (App)Current;
         }
 
-        protected override void OnStartup(StartupEventArgs e)
+        protected override async void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
@@ -48,6 +48,11 @@ namespace Twimager
                 Config.Credentials.AccessToken,
                 Config.Credentials.AccessTokenSecret
             );
+
+            foreach (var tracking in Config.Trackings)
+            {
+                await tracking.UpdateSummaryAsync();
+            }
 
             new MainWindow().ShowDialog();
             Shutdown();

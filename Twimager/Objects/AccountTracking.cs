@@ -38,6 +38,15 @@ namespace Twimager.Objects
         private long? _oldest;
         private long? _latest;
 
+        public async Task UpdateSummaryAsync()
+        {
+            var user = await Twitter.Users.ShowAsync(Id);
+
+            ScreenName = user.ScreenName;
+            Name = user.Name;
+            ProfileImageUrl = user.ProfileImageUrlHttps;
+        }
+
         public async Task<ListedResponse<Status>> GetStatusesAsync()
         {
             ListedResponse<Status> statuses;

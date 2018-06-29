@@ -9,6 +9,7 @@ namespace Twimager.Objects
         long? Latest { get; set; }
         string Directory { get; }
 
+        Task UpdateSummaryAsync();
         Task<ListedResponse<Status>> GetStatusesAsync();
     }
 }
