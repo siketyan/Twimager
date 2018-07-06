@@ -23,7 +23,7 @@ namespace Twimager
             return (App)Current;
         }
 
-        protected override async void OnStartup(StartupEventArgs e)
+        protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
