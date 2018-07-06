@@ -54,6 +54,11 @@ namespace Twimager.Objects
         private string _name;
         private string _fullName;
 
+        private Config Config
+        {
+            get => App.GetCurrent().Config;
+        }
+
         private Tokens Twitter
         {
             get => App.GetCurrent().Twitter;
@@ -74,7 +79,7 @@ namespace Twimager.Objects
                 return await Twitter.Lists.StatusesAsync(
                     Id,
                     count: 200,
-                    include_rts: false,
+                    include_rts: !Config.IgnoreRetweets,
                     max_id: Oldest
                 );
             }
@@ -83,7 +88,7 @@ namespace Twimager.Objects
                 return await Twitter.Lists.StatusesAsync(
                     Id,
                     count: 200,
-                    include_rts: false,
+                    include_rts: !Config.IgnoreRetweets,
                     since_id: Latest
                 );
             }

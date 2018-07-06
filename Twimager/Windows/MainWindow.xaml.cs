@@ -116,6 +116,16 @@ namespace Twimager.Windows
             TrackingsList.SelectedItem = null;
         }
 
+        private void ShowConfig(object sender, RoutedEventArgs e)
+        {
+            var window = new ConfigWindow
+            {
+                Owner = this
+            };
+
+            window.Show();
+        }
+
         private void ResetTracking(object sender, RoutedEventArgs e)
         {
             if (IsAppBusy()) return;

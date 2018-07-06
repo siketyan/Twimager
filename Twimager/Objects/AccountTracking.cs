@@ -66,6 +66,11 @@ namespace Twimager.Objects
         private string _name;
         private string _profileImageUrl;
 
+        private Config Config
+        {
+            get => App.GetCurrent().Config;
+        }
+
         private Tokens Twitter
         {
             get => App.GetCurrent().Twitter;
@@ -88,8 +93,8 @@ namespace Twimager.Objects
                     Id,
                     200,
                     trim_user: true,
-                    exclude_replies: false,
-                    include_rts: false,
+                    exclude_replies: Config.IgnoreReplies,
+                    include_rts: !Config.IgnoreRetweets,
                     max_id: Oldest
                 );
             }
@@ -99,8 +104,8 @@ namespace Twimager.Objects
                     Id,
                     200,
                     trim_user: true,
-                    exclude_replies: false,
-                    include_rts: false,
+                    exclude_replies: Config.IgnoreReplies,
+                    include_rts: !Config.IgnoreRetweets,
                     since_id: Latest
                 );
             }

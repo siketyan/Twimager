@@ -21,7 +21,7 @@
     <UpdatePackageVersion>False</UpdatePackageVersion>
     <AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
     <InheritWinAppVersionFrom>AssemblyVersion</InheritWinAppVersionFrom>
-    <ApplicationVersion>0.1.0.129</ApplicationVersion>
+    <ApplicationVersion>0.1.0.136</ApplicationVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -88,6 +88,9 @@
     <Compile Include="Objects\SearchTracking.cs" />
     <Compile Include="Objects\ListTracking.cs" />
     <Compile Include="Utilities\TrackingUtility.cs" />
+    <Compile Include="Windows\ConfigWindow.xaml.cs">
+      <DependentUpon>ConfigWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\PurgeWindow.xaml.cs">
       <DependentUpon>PurgeWindow.xaml</DependentUpon>
     </Compile>
@@ -95,6 +98,10 @@
       <DependentUpon>UpdateWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="Resources\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ConfigWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

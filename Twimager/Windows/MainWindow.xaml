@@ -120,8 +120,9 @@
                     Click="ExploreTracking"></Button>
             <Button DockPanel.Dock="Right"
                     Template="{StaticResource IconButtonTemplate}"
-                    ToolTip="Open settings"
-                    FontSize="20"></Button>
+                    FontSize="20"
+                    ToolTip="Open config"
+                    Click="ShowConfig"></Button>
             <Button DockPanel.Dock="Right"
                     Template="{StaticResource IconButtonTemplate}"
                     FontSize="22"

@@ -6,6 +6,12 @@ namespace Twimager.Objects
 {
     public class Config
     {
+        [JsonProperty("ignore_retweets")]
+        public bool IgnoreRetweets { get; set; } = true;
+
+        [JsonProperty("ignore_replies")]
+        public bool IgnoreReplies { get; set; } = true;
+
         [JsonProperty("credentials")]
         public Credentials Credentials { get; set; }
 
