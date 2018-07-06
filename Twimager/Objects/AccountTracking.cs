@@ -1,26 +1,53 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using CoreTweet;
 using Newtonsoft.Json;
 
 namespace Twimager.Objects
 {
-    public class AccountTracking : ITracking
+    public class AccountTracking : ITracking, INotifyPropertyChanged
     {
         private const string DirectoryBase = "Accounts";
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
 
         [JsonProperty("id")]
         public long Id { get; set; }
 
         [JsonProperty("screen_name")]
-        public string ScreenName { get; set; }
+        public string ScreenName
+        {
+            get => _screenName;
+            set
+            {
+                _screenName = value;
+                OnPropertyChanged("ScreenName");
+            }
+        }
 
         [JsonProperty("name")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                _name = value;
+                OnPropertyChanged("Name");
+            }
+        }
 
         [JsonProperty("profile_image_url")]
-        public string ProfileImageUrl { get; set; }
+        public string ProfileImageUrl
+        {
+            get => _profileImageUrl;
+            set
+            {
+                _profileImageUrl = value;
+                OnPropertyChanged("ProfileImageUrl");
+            }
+        }
 
         [JsonProperty("is_completed")]
         public bool IsCompleted { get; set; }
@@ -34,6 +61,10 @@ namespace Twimager.Objects
         [JsonIgnore]
         public string Directory { get => $"{DirectoryBase}/{Id}"; }
 
+
+        private string _screenName;
+        private string _name;
+        private string _profileImageUrl;
 
         private Tokens Twitter
         {
@@ -73,6 +104,11 @@ namespace Twimager.Objects
                     since_id: Latest
                 );
             }
+        }
+
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
 }

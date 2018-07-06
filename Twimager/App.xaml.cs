@@ -51,12 +51,6 @@ namespace Twimager
                 Config.Credentials.AccessTokenSecret
             );
 
-            foreach (var tracking in Config.Trackings)
-            {
-                var task = tracking.UpdateSummaryAsync();
-                if (task != null) await task;
-            }
-
             new MainWindow().ShowDialog();
             Shutdown();
         }

@@ -1,23 +1,42 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using CoreTweet;
 using Newtonsoft.Json;
 
 namespace Twimager.Objects
 {
-    public class ListTracking : ITracking
+    public class ListTracking : ITracking, INotifyPropertyChanged
     {
         private const string DirectoryBase = "Lists";
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
 
         [JsonProperty("id")]
         public long Id { get; set; }
 
         [JsonProperty("name")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                _name = value;
+                OnPropertyChanged("Name");
+            }
+        }
 
         [JsonProperty("fullname")]
-        public string FullName { get; set; }
+        public string FullName
+        {
+            get => _fullName;
+            set
+            {
+                _fullName = value;
+                OnPropertyChanged("FullName");
+            }
+        }
 
         [JsonProperty("is_completed")]
         public bool IsCompleted { get; set; }
@@ -31,6 +50,9 @@ namespace Twimager.Objects
         [JsonIgnore]
         public string Directory { get => $"{DirectoryBase}/{Id}"; }
 
+
+        private string _name;
+        private string _fullName;
 
         private Tokens Twitter
         {
@@ -65,6 +87,11 @@ namespace Twimager.Objects
                     since_id: Latest
                 );
             }
+        }
+
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
 }

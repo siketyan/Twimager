@@ -64,6 +64,9 @@ namespace Twimager.Windows
         {
             App.GetCurrent().IsBusy = true;
 
+            var task = Tracking.UpdateSummaryAsync();
+            if (task != null) await task;
+
             var dir = $"{App.Destination}/{Tracking.Directory}";
             if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
 
