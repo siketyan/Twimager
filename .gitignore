@@ -3,7 +3,9 @@
 bin
 obj
 packages
+appveyor-tools
 
 # Files
 *.user
 Twimager/Resources/TwitterKeys.cs
+encrypt.cmd
