@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using CoreTweet;
-using CoreTweet.Core;
 using Newtonsoft.Json;
 
 namespace Twimager.Objects
@@ -21,6 +19,12 @@ namespace Twimager.Objects
         [JsonProperty("fullname")]
         public string FullName { get; set; }
 
+        [JsonProperty("is_completed")]
+        public bool IsCompleted { get; set; }
+
+        [JsonProperty("oldest")]
+        public long? Oldest { get; set; }
+
         [JsonProperty("latest")]
         public long? Latest { get; set; }
 
@@ -33,9 +37,6 @@ namespace Twimager.Objects
             get => App.GetCurrent().Twitter;
         }
 
-        private long? _oldest;
-        private long? _latest;
-
         public async Task UpdateSummaryAsync()
         {
             var list = await Twitter.Lists.ShowAsync(Id);
@@ -46,51 +47,24 @@ namespace Twimager.Objects
 
         public async Task<IEnumerable<Status>> GetStatusesAsync()
         {
-            ListedResponse<Status> statuses;
-
-            if (Latest == null)
+            if (!IsCompleted)
             {
-                statuses = await Twitter.Lists.StatusesAsync(
+                return await Twitter.Lists.StatusesAsync(
                     Id,
                     count: 200,
                     include_rts: false,
-                    max_id: _oldest
+                    max_id: Oldest
                 );
-
-                if (_latest == null) _latest = statuses.First().Id;
-                if (statuses.Count <= 1)
-                {
-                    Latest = _latest;
-                    return null;
-                }
-
-                _oldest = statuses.Last().Id;
             }
             else
             {
-                statuses = await Twitter.Lists.StatusesAsync(
+                return await Twitter.Lists.StatusesAsync(
                     Id,
                     count: 200,
                     include_rts: false,
-                    since_id: _latest
+                    since_id: Latest
                 );
-
-                if (!statuses.Any())
-                {
-                    Latest = _latest;
-                    return null;
-                }
-
-                _latest = statuses.First().Id;
             }
-
-            return statuses;
-        }
-
-        public void Reset()
-        {
-            Latest = _latest = _oldest = null;
-            App.GetCurrent().Config.Save();
         }
     }
 }

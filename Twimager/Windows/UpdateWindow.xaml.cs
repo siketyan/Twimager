@@ -1,11 +1,11 @@
-﻿using CoreTweet;
-using Microsoft.WindowsAPICodePack.Dialogs;
+﻿using Microsoft.WindowsAPICodePack.Dialogs;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
+using CoreTweet;
 using Twimager.Enums;
 using Twimager.Objects;
 
@@ -72,11 +72,33 @@ namespace Twimager.Windows
                 while (true)
                 {
                     var statuses = await Tracking.GetStatusesAsync();
-                    if (statuses == null) break;
+                    if (!statuses.Any(x => x.Id != (Tracking.IsCompleted ? Tracking.Latest : Tracking.Oldest)))
+                    {
+                        if (!Tracking.IsCompleted)
+                        {
+                            Tracking.IsCompleted = true;
+                            App.GetCurrent().Config.Save();
+                        }
 
+                        break;
+                    }
+
+                    if (Tracking.Oldest < statuses.Last().Id)
+                    {
+                        statuses.OrderByDescending(x => x.Id);
+                    }
+                    else
+                    {
+                        statuses.OrderBy(x => x.Id);
+                    }
+                    
                     foreach (var status in statuses)
                     {
                         var isCanceled = await DownloadMediaAsync(wc, status, dir);
+                        
+                        if (Tracking.Oldest == null || Tracking.Oldest > status.Id) Tracking.Oldest = status.Id;
+                        if (Tracking.Latest == null || Tracking.Latest < status.Id) Tracking.Latest = status.Id;
+                        App.GetCurrent().Config.Save();
 
                         if (!_isCanceled) _isCanceled = isCanceled;
                         if (isCanceled) break;
@@ -89,11 +111,9 @@ namespace Twimager.Windows
                     }
                 }
             }
-
-            App.GetCurrent().Config.Save();
-            Close();
-
+            
             App.GetCurrent().IsBusy = false;
+            Close();
         }
 
         private async Task<bool> DownloadMediaAsync(WebClient wc, Status status, string destination)

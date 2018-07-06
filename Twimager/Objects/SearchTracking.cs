@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using CoreTweet;
 using Newtonsoft.Json;
@@ -16,6 +15,12 @@ namespace Twimager.Objects
         [JsonProperty("query")]
         public string Query { get; set; }
 
+        [JsonProperty("is_completed")]
+        public bool IsCompleted { get; set; }
+
+        [JsonProperty("oldest")]
+        public long? Oldest { get; set; }
+
         [JsonProperty("latest")]
         public long? Latest { get; set; }
 
@@ -28,56 +33,26 @@ namespace Twimager.Objects
             get => App.GetCurrent().Twitter;
         }
 
-        private long? _oldest;
-        private long? _latest;
-
         public Task UpdateSummaryAsync() => null; // Ignore
 
         public async Task<IEnumerable<Status>> GetStatusesAsync()
         {
-            SearchResult statuses;
-
-            if (Latest == null)
+            if (!IsCompleted)
             {
-                statuses = await Twitter.Search.TweetsAsync(
+                return await Twitter.Search.TweetsAsync(
                     Query,
                     count: 200,
-                    max_id: _oldest
+                    max_id: Oldest
                 );
-
-                if (_latest == null) _latest = statuses.First().Id;
-                if (statuses.Count() <= 1)
-                {
-                    Latest = _latest;
-                    return null;
-                }
-
-                _oldest = statuses.Last().Id;
             }
             else
             {
-                statuses = await Twitter.Search.TweetsAsync(
+                return await Twitter.Search.TweetsAsync(
                     Query,
                     count: 200,
-                    since_id: _latest
+                    since_id: Latest
                 );
-
-                if (!statuses.Any())
-                {
-                    Latest = _latest;
-                    return null;
-                }
-
-                _latest = statuses.First().Id;
             }
-
-            return statuses;
-        }
-
-        public void Reset()
-        {
-            Latest = _latest = _oldest = null;
-            App.GetCurrent().Config.Save();
         }
 
         private string ReplaceInvalidChars(string str)
