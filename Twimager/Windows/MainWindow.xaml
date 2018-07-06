@@ -17,6 +17,7 @@
                     <Button DockPanel.Dock="Right"
                             Template="{StaticResource IconButtonTemplate}"
                             FontSize="22"
+                            ToolTip="Update the tracking"
                             Click="UpdateTracking"
                             Tag="{Binding}"></Button>
                     <Ellipse Width="48" Height="48" VerticalAlignment="Top">
@@ -44,6 +45,7 @@
                     <Button DockPanel.Dock="Right"
                             Template="{StaticResource IconButtonTemplate}"
                             FontSize="22"
+                            ToolTip="Update the tracking"
                             Click="UpdateTracking"
                             Tag="{Binding}"></Button>
                     <Grid>
@@ -74,6 +76,7 @@
                     <Button DockPanel.Dock="Right"
                             Template="{StaticResource IconButtonTemplate}"
                             FontSize="22"
+                            ToolTip="Update the tracking"
                             Click="UpdateTracking"
                             Tag="{Binding}"></Button>
                     <Grid>
@@ -105,19 +108,24 @@
                    MouseLeftButtonDown="Deselect">
             <Button Template="{StaticResource IconButtonTemplate}"
                     FontSize="22"
+                    ToolTip="Add a tracking"
                     Click="AddTracking"></Button>
             <Button Template="{StaticResource IconButtonTemplate}"
                     FontSize="22"
+                    ToolTip="Remove the tracking"
                     Click="RemoveTracking"></Button>
             <Button Template="{StaticResource IconButtonTemplate}"
                     FontSize="21" Margin="4,0"
+                    ToolTip="Explore medias of the tracking"
                     Click="ExploreTracking"></Button>
             <Button DockPanel.Dock="Right"
                     Template="{StaticResource IconButtonTemplate}"
+                    ToolTip="Open settings"
                     FontSize="20"></Button>
             <Button DockPanel.Dock="Right"
                     Template="{StaticResource IconButtonTemplate}"
                     FontSize="22"
+                    ToolTip="Update all trackings"
                     Click="UpdateAll"></Button>
         </DockPanel>
 
