@@ -31,7 +31,8 @@ namespace Twimager.Windows
         }
         
         public ITracking Tracking { get; }
-        
+
+        private bool _isCanceled = false;
         private string _status = "Initializing...";
         private Tokens _twitter;
         
@@ -74,7 +75,16 @@ namespace Twimager.Windows
 
                     foreach (var status in statuses)
                     {
-                        await DownloadMediaAsync(wc, status, dir);
+                        var isCanceled = await DownloadMediaAsync(wc, status, dir);
+
+                        if (!_isCanceled) _isCanceled = isCanceled;
+                        if (isCanceled) break;
+                    }
+
+                    if (_isCanceled)
+                    {
+                        Close();
+                        return;
                     }
                 }
             }
@@ -163,7 +173,6 @@ namespace Twimager.Windows
 
                 if (result == ErrorDialogResult.Cancel)
                 {
-                    Close();
                     return true;
                 }
             }
