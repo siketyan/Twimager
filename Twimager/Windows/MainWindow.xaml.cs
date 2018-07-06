@@ -168,6 +168,8 @@ namespace Twimager.Windows
 
         private void OnClosing(object sender, CancelEventArgs e)
         {
+            if (!App.GetCurrent().IsBusy) return;
+
             var dialog = new TaskDialog
             {
                 Icon = TaskDialogStandardIcon.Warning,
