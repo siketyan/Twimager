@@ -66,6 +66,8 @@ namespace Twimager.Windows
 
         private void UpdateTracking(object sender, RoutedEventArgs e)
         {
+            if (IsAppBusy()) return;
+
             new UpdateWindow(
                 (sender as Button).Tag as ITracking
             ).ShowAndUpdate();
@@ -73,6 +75,7 @@ namespace Twimager.Windows
 
         private void UpdateAll(object sender, RoutedEventArgs e)
         {
+            if (IsAppBusy()) return;
             if (!Trackings.Any())
             {
                 var dialog = new TaskDialog
@@ -115,6 +118,7 @@ namespace Twimager.Windows
 
         private void ResetTracking(object sender, RoutedEventArgs e)
         {
+            if (IsAppBusy()) return;
             if (!(TrackingsList.SelectedItem is ITracking tracking)) return;
             tracking.Reset();
 
@@ -132,6 +136,7 @@ namespace Twimager.Windows
 
         private void PurgeTracking(object sender, RoutedEventArgs e)
         {
+            if (IsAppBusy()) return;
             if (!(TrackingsList.SelectedItem is ITracking tracking)) return;
 
             var question = new TaskDialog
@@ -167,6 +172,23 @@ namespace Twimager.Windows
             Trackings.Insert(index + 1, tracking);
         }
 
+        private bool IsAppBusy()
+        {
+            if (!App.GetCurrent().IsBusy) return false;
+
+            var dialog = new TaskDialog
+            {
+                Icon = TaskDialogStandardIcon.Error,
+                StandardButtons = TaskDialogStandardButtons.Ok,
+                Caption = "Twimager",
+                InstructionText = "App is busy.",
+                Text = "Cancel the working task to continue."
+            };
+
+            dialog.Show();
+            return true;
+        }
+
         private void OnClosing(object sender, CancelEventArgs e)
         {
             if (!App.GetCurrent().IsBusy) return;
@@ -177,7 +199,7 @@ namespace Twimager.Windows
                 StandardButtons = TaskDialogStandardButtons.Yes | TaskDialogStandardButtons.No,
                 Caption = "Twimager",
                 InstructionText = "Are you sure you want to exit?",
-                Text = "All working tasks will be canceled and the data may be lost."
+                Text = "The working task will be canceled and the data may be lost."
             };
 
             e.Cancel = dialog.Show() != TaskDialogResult.Yes;
