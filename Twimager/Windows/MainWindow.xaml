@@ -96,12 +96,12 @@
                       VerticalScrollBarVisibility="Auto"
                       HorizontalContentAlignment="Stretch">
             <ListBox x:Name="TrackingsList"
-                    Grid.Row="1"
-                    Background="Transparent"
-                    BorderThickness="0"
-                    HorizontalContentAlignment="Stretch"
-                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                    ItemsSource="{Binding Trackings}">
+                     Grid.Row="1"
+                     Background="Transparent"
+                     BorderThickness="0"
+                     HorizontalContentAlignment="Stretch"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     ItemsSource="{Binding Trackings}">
                 <ListBox.Template>
                     <ControlTemplate TargetType="ItemsControl">
                         <Border>
