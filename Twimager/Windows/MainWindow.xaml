@@ -109,6 +109,9 @@
             <Button Template="{StaticResource IconButtonTemplate}"
                     FontSize="22"
                     Click="RemoveTracking"></Button>
+            <Button Template="{StaticResource IconButtonTemplate}"
+                    FontSize="21" Margin="4,0"
+                    Click="ExploreTracking"></Button>
             <Button DockPanel.Dock="Right"
                     Template="{StaticResource IconButtonTemplate}"
                     FontSize="20"></Button>
