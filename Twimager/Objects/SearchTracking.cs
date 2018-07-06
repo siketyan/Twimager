@@ -1,31 +1,26 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using CoreTweet;
-using CoreTweet.Core;
 using Newtonsoft.Json;
 
 namespace Twimager.Objects
 {
-    public class ListTracking : ITracking
+    public class SearchTracking : ITracking
     {
-        private const string DirectoryBase = "Lists";
+        private const string DirectoryBase = "Searches";
+        private const char DefaultPathChar = '_';
 
 
-        [JsonProperty("id")]
-        public long Id { get; set; }
-
-        [JsonProperty("name")]
-        public string Name { get; set; }
-
-        [JsonProperty("fullname")]
-        public string FullName { get; set; }
+        [JsonProperty("query")]
+        public string Query { get; set; }
 
         [JsonProperty("latest")]
         public long? Latest { get; set; }
 
         [JsonIgnore]
-        public string Directory { get => $"{DirectoryBase}/{Id}"; }
+        public string Directory { get => $"{DirectoryBase}/{ReplaceInvalidChars(Query)}"; }
 
 
         private Tokens Twitter
@@ -36,29 +31,22 @@ namespace Twimager.Objects
         private long? _oldest;
         private long? _latest;
 
-        public async Task UpdateSummaryAsync()
-        {
-            var list = await Twitter.Lists.ShowAsync(Id);
-
-            Name = list.Name;
-            FullName = list.FullName;
-        }
+        public Task UpdateSummaryAsync() => null; // Ignore
 
         public async Task<IEnumerable<Status>> GetStatusesAsync()
         {
-            ListedResponse<Status> statuses;
+            SearchResult statuses;
 
             if (Latest == null)
             {
-                statuses = await Twitter.Lists.StatusesAsync(
-                    Id,
+                statuses = await Twitter.Search.TweetsAsync(
+                    Query,
                     count: 200,
-                    include_rts: false,
                     max_id: _oldest
                 );
 
                 if (_latest == null) _latest = statuses.First().Id;
-                if (statuses.Count <= 1)
+                if (statuses.Count() <= 1)
                 {
                     Latest = _latest;
                     return null;
@@ -68,10 +56,9 @@ namespace Twimager.Objects
             }
             else
             {
-                statuses = await Twitter.Lists.StatusesAsync(
-                    Id,
+                statuses = await Twitter.Search.TweetsAsync(
+                    Query,
                     count: 200,
-                    include_rts: false,
                     since_id: _latest
                 );
 
@@ -91,6 +78,16 @@ namespace Twimager.Objects
         {
             Latest = _latest = _oldest = null;
             App.GetCurrent().Config.Save();
+        }
+
+        private string ReplaceInvalidChars(string str)
+        {
+            foreach (var ch in Path.GetInvalidPathChars())
+            {
+                str = str.Replace(ch, DefaultPathChar);
+            }
+
+            return str;
         }
     }
 }

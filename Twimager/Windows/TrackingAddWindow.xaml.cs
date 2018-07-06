@@ -91,5 +91,31 @@ namespace Twimager.Windows
             
             Close();
         }
+
+        private void AddSearchTracking(object sender, RoutedEventArgs e)
+        {
+            var query = SearchQuery.Text;
+            if (query.Length == 0)
+            {
+                var dialog = new TaskDialog
+                {
+                    Icon = TaskDialogStandardIcon.Error,
+                    StandardButtons = TaskDialogStandardButtons.Ok,
+                    Caption = "Twimager",
+                    InstructionText = "Searching query is empty.",
+                    Text = "You have to put query to search into the box."
+                };
+
+                dialog.Show();
+                return;
+            }
+
+            Tracking = new SearchTracking
+            {
+                Query = query
+            };
+
+            Close();
+        }
     }
 }

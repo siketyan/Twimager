@@ -1,5 +1,5 @@
 ﻿using CoreTweet;
-using CoreTweet.Core;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Twimager.Objects
@@ -10,7 +10,7 @@ namespace Twimager.Objects
         string Directory { get; }
 
         Task UpdateSummaryAsync();
-        Task<ListedResponse<Status>> GetStatusesAsync();
+        Task<IEnumerable<Status>> GetStatusesAsync();
 
         void Reset();
     }

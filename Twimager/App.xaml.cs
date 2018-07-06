@@ -52,7 +52,8 @@ namespace Twimager
 
             foreach (var tracking in Config.Trackings)
             {
-                await tracking.UpdateSummaryAsync();
+                var task = tracking.UpdateSummaryAsync();
+                if (task != null) await task;
             }
 
             new MainWindow().ShowDialog();

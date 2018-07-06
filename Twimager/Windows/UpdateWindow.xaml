@@ -54,6 +54,26 @@
                 </StackPanel>
             </DockPanel>
         </DataTemplate>
+
+        <DataTemplate x:Key="SearchTemplate">
+            <DockPanel>
+                <Grid>
+                    <Ellipse Width="48" Height="48" Fill="#DDD" VerticalAlignment="Top" />
+                    <Label Foreground="#555"
+                           FontSize="22"
+                           FontFamily="../Resources/#Material Icons"
+                           VerticalContentAlignment="Center"
+                           HorizontalContentAlignment="Center"></Label>
+                </Grid>
+                <StackPanel Margin="10,12">
+                    <Label FontSize="16" Padding="0">
+                        <TextBlock TextTrimming="CharacterEllipsis"
+                                   Text="{Binding Query}"
+                                   VerticalAlignment="Center" />
+                    </Label>
+                </StackPanel>
+            </DockPanel>
+        </DataTemplate>
     </Window.Resources>
     
     <Grid>
@@ -67,6 +87,9 @@
                             </DataTrigger>
                             <DataTrigger Binding="{Binding Tracking, Converter={StaticResource ObjectType}}" Value="ListTracking">
                                 <Setter Property="ContentTemplate" Value="{StaticResource ListTemplate}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Tracking, Converter={StaticResource ObjectType}}" Value="SearchTracking">
+                                <Setter Property="ContentTemplate" Value="{StaticResource SearchTemplate}" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>

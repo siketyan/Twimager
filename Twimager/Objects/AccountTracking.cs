@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CoreTweet;
 using CoreTweet.Core;
@@ -47,7 +48,7 @@ namespace Twimager.Objects
             ProfileImageUrl = user.ProfileImageUrlHttps;
         }
 
-        public async Task<ListedResponse<Status>> GetStatusesAsync()
+        public async Task<IEnumerable<Status>> GetStatusesAsync()
         {
             ListedResponse<Status> statuses;
 

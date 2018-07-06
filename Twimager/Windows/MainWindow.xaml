@@ -66,6 +66,32 @@
                 </DockPanel>
             </Border>
         </DataTemplate>
+
+        <DataTemplate x:Key="SearchTemplate">
+            <Border Padding="10,5">
+                <DockPanel>
+                    <Button DockPanel.Dock="Right"
+                            Template="{StaticResource IconButtonTemplate}"
+                            FontSize="22"
+                            Click="UpdateTracking"
+                            Tag="{Binding}"></Button>
+                    <Grid>
+                        <Ellipse Width="48" Height="48" Fill="#DDD" VerticalAlignment="Top" />
+                        <Label Foreground="#555"
+                               FontSize="22"
+                               FontFamily="../Resources/#Material Icons"
+                               VerticalContentAlignment="Center"
+                               HorizontalContentAlignment="Center"></Label>
+                    </Grid>
+                    <StackPanel Margin="10,12">
+                        <Label FontSize="16" Padding="0">
+                            <TextBlock TextTrimming="CharacterEllipsis"
+                                       Text="{Binding Query}" />
+                        </Label>
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -153,6 +179,9 @@
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding Converter={StaticResource ObjectType}}" Value="ListTracking">
                                             <Setter Property="ContentTemplate" Value="{StaticResource ListTemplate}" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Converter={StaticResource ObjectType}}" Value="SearchTracking">
+                                            <Setter Property="ContentTemplate" Value="{StaticResource SearchTemplate}" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>

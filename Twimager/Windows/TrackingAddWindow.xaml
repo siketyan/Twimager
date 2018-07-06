@@ -37,6 +37,19 @@
                               ItemsSource="{Binding Lists}"></ComboBox>
                 </DockPanel>
             </TabItem>
+            <TabItem Header="Search">
+                <DockPanel Margin="15,10">
+                    <Button DockPanel.Dock="Right"
+                            Template="{StaticResource IconButtonTemplate}"
+                            FontSize="22"
+                            Click="AddSearchTracking"></Button>
+                    <TextBox x:Name="SearchQuery"
+                             Height="24"
+                             Margin="5"
+                             Padding="5,0"
+                             VerticalContentAlignment="Center"></TextBox>
+                </DockPanel>
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>
