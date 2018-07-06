@@ -1,0 +1,27 @@
+﻿<Window x:Class="Twimager.Windows.PurgeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Purging medias of the tracking" Width="375" Height="115"
+        Icon="../Resources/icon.ico"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <StackPanel Margin="15, 10">
+            <DockPanel LastChildFill="True">
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                    <Label Content="{Binding Current}" />
+                    <Label Padding="0, 5">/</Label>
+                    <Label Content="{Binding Count}" />
+                </StackPanel>
+                <Label Content="{Binding Status}" />
+            </DockPanel>
+            <ProgressBar Height="2"
+                         BorderThickness="0"
+                         Maximum="{Binding Count}"
+                         Value="{Binding Current}" />
+            <Label Content="{Binding FileName}" />
+        </StackPanel>
+    </Grid>
+</Window>

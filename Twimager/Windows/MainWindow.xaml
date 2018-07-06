@@ -107,6 +107,9 @@
                         <Border>
                             <Border.ContextMenu>
                                 <ContextMenu>
+                                    <MenuItem Header="Reset" Click="ResetTracking" />
+                                    <MenuItem Header="Purge" Click="PurgeTracking" />
+                                    <Separator />
                                     <MenuItem Header="Move up" Click="MoveTrackingUp" />
                                     <MenuItem Header="Move down" Click="MoveTrackingDown" />
                                 </ContextMenu>

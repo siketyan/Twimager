@@ -17,7 +17,6 @@ namespace Twimager.Windows
     public partial class UpdateWindow : INotifyPropertyChanged
     {
         private const int WindowMargin = 32;
-        private const string Destination = "Downloads";
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -63,7 +62,7 @@ namespace Twimager.Windows
 
         private async void UpdateAsync()
         {
-            var dir = $"{Destination}/{Tracking.Directory}";
+            var dir = $"{App.Destination}/{Tracking.Directory}";
             if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
 
             using (var wc = new WebClient())

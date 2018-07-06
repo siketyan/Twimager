@@ -11,5 +11,7 @@ namespace Twimager.Objects
 
         Task UpdateSummaryAsync();
         Task<ListedResponse<Status>> GetStatusesAsync();
+
+        void Reset();
     }
 }

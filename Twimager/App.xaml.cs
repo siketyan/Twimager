@@ -11,6 +11,7 @@ namespace Twimager
     /// </summary>
     public partial class App
     {
+        public const string Destination = "Downloads";
         private const string ConfigFile = "config.json";
 
         public Config Config { get; set; }

@@ -85,5 +85,11 @@ namespace Twimager.Objects
 
             return statuses;
         }
+
+        public void Reset()
+        {
+            Latest = _latest = _oldest = null;
+            App.GetCurrent().Config.Save();
+        }
     }
 }

@@ -97,6 +97,42 @@ namespace Twimager.Windows
             TrackingsList.SelectedItem = null;
         }
 
+        private void ResetTracking(object sender, RoutedEventArgs e)
+        {
+            if (!(TrackingsList.SelectedItem is ITracking tracking)) return;
+            tracking.Reset();
+
+            var dialog = new TaskDialog
+            {
+                Icon = TaskDialogStandardIcon.Information,
+                StandardButtons = TaskDialogStandardButtons.Ok,
+                Caption = "Twimager",
+                InstructionText = "Successfully reset the tracking.",
+                Text = "Update the tracking to scan and repair medias."
+            };
+
+            dialog.Show();
+        }
+
+        private void PurgeTracking(object sender, RoutedEventArgs e)
+        {
+            if (!(TrackingsList.SelectedItem is ITracking tracking)) return;
+
+            var question = new TaskDialog
+            {
+                Icon = TaskDialogStandardIcon.Warning,
+                StandardButtons = TaskDialogStandardButtons.Yes | TaskDialogStandardButtons.No,
+                Caption = "Twimager",
+                InstructionText = "Are you sure you want to purge the tracking?",
+                Text = "All medias will be lost permanently and this operation will be irreversible."
+            };
+
+            if (question.Show() != TaskDialogResult.Yes) return;
+
+            tracking.Reset();
+            new PurgeWindow(tracking).ShowAndPurge();
+        }
+
         private void MoveTrackingUp(object sender, RoutedEventArgs e)
         {
             var index = TrackingsList.SelectedIndex;
