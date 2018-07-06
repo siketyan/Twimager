@@ -1,5 +1,6 @@
 ﻿using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -149,6 +150,20 @@ namespace Twimager.Windows
 
             Trackings.Remove(tracking);
             Trackings.Insert(index + 1, tracking);
+        }
+
+        private void OnClosing(object sender, CancelEventArgs e)
+        {
+            var dialog = new TaskDialog
+            {
+                Icon = TaskDialogStandardIcon.Warning,
+                StandardButtons = TaskDialogStandardButtons.Yes | TaskDialogStandardButtons.No,
+                Caption = "Twimager",
+                InstructionText = "Are you sure you want to exit?",
+                Text = "All working tasks will be canceled and the data may be lost."
+            };
+
+            e.Cancel = dialog.Show() != TaskDialogResult.Yes;
         }
     }
 }

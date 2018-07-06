@@ -14,6 +14,7 @@ namespace Twimager
         public const string Destination = "Downloads";
         private const string ConfigFile = "config.json";
 
+        public bool IsBusy { get; set; }
         public Config Config { get; set; }
         public Tokens Twitter { get; set; }
 

@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Twimager.Objects;
 
@@ -92,6 +91,8 @@ namespace Twimager.Windows
 
         private async void PurgeAsync()
         {
+            App.GetCurrent().IsBusy = true;
+
             var files = await Task.Run(() =>
             {
                 return Directory.GetFiles(_directory, "*.*", SearchOption.AllDirectories);
@@ -124,6 +125,8 @@ namespace Twimager.Windows
 
             Close();
             dialog.Show();
+
+            App.GetCurrent().IsBusy = false;
         }
 
         protected void OnPropertyChanged(string name)

@@ -62,6 +62,8 @@ namespace Twimager.Windows
 
         private async void UpdateAsync()
         {
+            App.GetCurrent().IsBusy = true;
+
             var dir = $"{App.Destination}/{Tracking.Directory}";
             if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
 
@@ -90,6 +92,8 @@ namespace Twimager.Windows
 
             App.GetCurrent().Config.Save();
             Close();
+
+            App.GetCurrent().IsBusy = false;
         }
 
         private async Task<bool> DownloadMediaAsync(WebClient wc, Status status, string destination)
