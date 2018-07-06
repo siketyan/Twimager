@@ -2,6 +2,7 @@
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
@@ -30,7 +31,7 @@ namespace Twimager.Windows
         }
         
         public ITracking Tracking { get; }
-
+        
         private string _status = "Initializing...";
         private Tokens _twitter;
         
@@ -95,14 +96,29 @@ namespace Twimager.Windows
                 {
                     try
                     {
-                        var url = media.MediaUrlHttps;
-                        var name = Path.GetFileName(url);
-                        var file = $"{destination}/{name}";
+                        string url, name, file;
+
+                        if (media.Type == "video")
+                        {
+                            var variant = media.VideoInfo.Variants.OrderByDescending(x => x.Bitrate ?? 0).First();
+
+                            url = variant.Url.Split('?').First();
+                            name = Path.GetFileName(url);
+                            file = $"{destination}/{name}";
+                        }
+                        else
+                        {
+                            url = media.MediaUrlHttps;
+                            name = Path.GetFileName(url);
+                            file = $"{destination}/{name}";
+
+                            url += ":orig";
+                        }
 
                         Status = name;
 
                         if (File.Exists(file)) break;
-                        await wc.DownloadFileTaskAsync($"{url}:orig", file);
+                        await wc.DownloadFileTaskAsync(url, file);
                     }
                     catch
                     {
