@@ -6,7 +6,8 @@
         mc:Ignorable="d"
         Title="Purging medias of the tracking" Width="375" Height="115"
         Icon="../Resources/icon.ico"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize">
     <Grid>
         <StackPanel Margin="15, 10">
             <DockPanel LastChildFill="True">

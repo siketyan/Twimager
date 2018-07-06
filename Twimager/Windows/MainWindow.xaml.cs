@@ -68,9 +68,12 @@ namespace Twimager.Windows
         {
             if (IsAppBusy()) return;
 
-            new UpdateWindow(
-                (sender as Button).Tag as ITracking
-            ).ShowAndUpdate();
+            var window = new UpdateWindow((sender as Button).Tag as ITracking)
+            {
+                Owner = this
+            };
+
+            window.ShowAndUpdate();
         }
 
         private void UpdateAll(object sender, RoutedEventArgs e)
@@ -98,7 +101,11 @@ namespace Twimager.Windows
         private void UpdateNext()
         {
             var tracking = Trackings[_current];
-            var window = new UpdateWindow(tracking);
+            var window = new UpdateWindow(tracking)
+            {
+                Owner = this
+            };
+
             if (_current < Trackings.Count - 1)
             {
                 window.Closing += (sender, e) =>
@@ -159,9 +166,14 @@ namespace Twimager.Windows
             };
 
             if (question.Show() != TaskDialogResult.Yes) return;
-
             tracking.Reset();
-            new PurgeWindow(tracking).ShowAndPurge();
+
+            var window = new PurgeWindow(tracking)
+            {
+                Owner = this
+            };
+
+            window.ShowAndPurge();
         }
 
         private void MoveTrackingUp(object sender, RoutedEventArgs e)
