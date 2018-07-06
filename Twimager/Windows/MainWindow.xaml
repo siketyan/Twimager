@@ -105,6 +105,13 @@
                 <ListBox.Template>
                     <ControlTemplate TargetType="ItemsControl">
                         <Border>
+                            <Border.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Move up" Click="MoveTrackingUp" />
+                                    <MenuItem Header="Move down" Click="MoveTrackingDown" />
+                                </ContextMenu>
+                            </Border.ContextMenu>
+                            
                             <ItemsPresenter />
                         </Border>
                     </ControlTemplate>

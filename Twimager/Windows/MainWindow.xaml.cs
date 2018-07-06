@@ -96,5 +96,23 @@ namespace Twimager.Windows
         {
             TrackingsList.SelectedItem = null;
         }
+
+        private void MoveTrackingUp(object sender, RoutedEventArgs e)
+        {
+            var index = TrackingsList.SelectedIndex;
+            if (!(TrackingsList.SelectedItem is ITracking tracking) || index == 0) return;
+
+            Trackings.Remove(tracking);
+            Trackings.Insert(index - 1, tracking);
+        }
+
+        private void MoveTrackingDown(object sender, RoutedEventArgs e)
+        {
+            var index = TrackingsList.SelectedIndex;
+            if (!(TrackingsList.SelectedItem is ITracking tracking) || index == Trackings.Count()) return;
+
+            Trackings.Remove(tracking);
+            Trackings.Insert(index + 1, tracking);
+        }
     }
 }
