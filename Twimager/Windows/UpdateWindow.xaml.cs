@@ -8,6 +8,7 @@ using System.Windows;
 using CoreTweet;
 using Twimager.Enums;
 using Twimager.Objects;
+using System.Collections.Generic;
 
 namespace Twimager.Windows
 {
@@ -74,7 +75,46 @@ namespace Twimager.Windows
             {
                 while (true)
                 {
-                    var statuses = await Tracking.GetStatusesAsync();
+                    IEnumerable<Status> statuses;
+
+                    try
+                    {
+                        statuses = await Tracking.GetStatusesAsync();
+                    }
+                    catch (TwitterException e)
+                    {
+                        if (e.RateLimit.Remaining == 0)
+                        {
+                            var dialog = new TaskDialog
+                            {
+                                Icon = TaskDialogStandardIcon.Error,
+                                StandardButtons = TaskDialogStandardButtons.Ok,
+                                Caption = "Twimager",
+                                InstructionText = "The rate limit of Twitter API exceeded.",
+                                Text = $"Try again after {e.RateLimit.Reset.LocalDateTime.ToString()}"
+                            };
+
+                            dialog.Show();
+                        }
+                        else
+                        {
+                            var dialog = new TaskDialog
+                            {
+                                Icon = TaskDialogStandardIcon.Error,
+                                StandardButtons = TaskDialogStandardButtons.Ok,
+                                Caption = "Twimager",
+                                InstructionText = "Failed to get statuses from Twitter API.",
+                                Text = $"Check the tracking target exists and try again.",
+                                DetailsExpandedText = e.Message,
+                                ExpansionMode = TaskDialogExpandedDetailsLocation.ExpandContent
+                            };
+
+                            dialog.Show();
+                        }
+
+                        break;
+                    }
+
                     if (!statuses.Any(x => x.Id != (Tracking.IsCompleted ? Tracking.Latest : Tracking.Oldest)))
                     {
                         if (!Tracking.IsCompleted)
