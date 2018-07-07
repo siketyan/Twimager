@@ -9,6 +9,7 @@ using CoreTweet;
 using Twimager.Enums;
 using Twimager.Objects;
 using System.Collections.Generic;
+using System;
 
 namespace Twimager.Windows
 {
@@ -162,7 +163,20 @@ namespace Twimager.Windows
         private async Task<bool> DownloadMediaAsync(WebClient wc, Status status, string destination)
         {
             var entities = status.ExtendedEntities;
-            if (entities == null) return false;
+            if (entities == null)
+            {
+                if (status.IsTruncated ?? false)
+                {
+                    entities = (
+                        await _twitter.Statuses.ShowAsync(
+                            status.Id,
+                            tweet_mode: TweetMode.Extended
+                        )
+                    ).ExtendedEntities;
+                }
+
+                if (entities == null) return false;
+            }
 
             foreach (var media in entities.Media)
             {
@@ -192,7 +206,7 @@ namespace Twimager.Windows
                         }
 
                         Status = name;
-
+                        
                         if (File.Exists(file)) break;
                         await wc.DownloadFileTaskAsync(url, file);
                     }
