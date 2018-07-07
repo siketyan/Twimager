@@ -64,5 +64,10 @@ namespace Twimager.Objects
 
             return str;
         }
+
+        public override string ToString()
+        {
+            return $"Search: {Query}";
+        }
     }
 }

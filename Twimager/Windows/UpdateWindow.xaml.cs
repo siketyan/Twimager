@@ -9,6 +9,7 @@ using CoreTweet;
 using Twimager.Enums;
 using Twimager.Objects;
 using System.Collections.Generic;
+using Twimager.Utilities;
 using System;
 
 namespace Twimager.Windows
@@ -35,6 +36,9 @@ namespace Twimager.Windows
 
         private bool _isCanceled = false;
         private string _status = "Initializing...";
+        private App _app;
+        private Logger _logger;
+        private Config _config;
         private Tokens _twitter;
         
         public UpdateWindow(ITracking tracking)
@@ -42,7 +46,10 @@ namespace Twimager.Windows
             InitializeComponent();
 
             Tracking = tracking;
-            _twitter = App.GetCurrent().Twitter;
+            _app = App.GetCurrent();
+            _logger = _app.Logger;
+            _config = _app.Config;
+            _twitter = _app.Twitter;
 
             DataContext = this;
         }
@@ -64,13 +71,27 @@ namespace Twimager.Windows
 
         private async void UpdateAsync()
         {
-            App.GetCurrent().IsBusy = true;
+            _app.IsBusy = true;
+            await _logger.LogAsync($"Starting to update: {Tracking.ToString()}");
 
+            await _logger.LogAsync($"Updating summary");
             var task = Tracking.UpdateSummaryAsync();
-            if (task != null) await task;
+            if (task == null)
+            {
+                await _logger.LogAsync("The tracking does not need update summary, skipping");
+            }
+            else
+            {
+                await task;
+                await _logger.LogAsync("Successfully updated summary");
+            }
 
             var dir = $"{App.Destination}/{Tracking.Directory}";
-            if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+            if (!Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+                await _logger.LogAsync($"Created directory: {dir}");
+            }
 
             using (var wc = new WebClient())
             {
@@ -80,10 +101,13 @@ namespace Twimager.Windows
 
                     try
                     {
+                        await _logger.LogAsync("Loading statuses");
                         statuses = await Tracking.GetStatusesAsync();
                     }
                     catch (TwitterException e)
                     {
+                        await _logger.LogExceptionAsync(e);
+
                         if (e.RateLimit.Remaining == 0)
                         {
                             var dialog = new TaskDialog
@@ -121,7 +145,9 @@ namespace Twimager.Windows
                         if (!Tracking.IsCompleted)
                         {
                             Tracking.IsCompleted = true;
-                            App.GetCurrent().Config.Save();
+
+                            await _logger.LogAsync("Completed updating to the oldest status, saving");
+                            _config.Save();
                         }
 
                         break;
@@ -138,11 +164,12 @@ namespace Twimager.Windows
                     
                     foreach (var status in statuses)
                     {
+                        await _logger.LogAsync($"+ {status.Id}");
                         var isCanceled = await DownloadMediaAsync(wc, status, dir);
                         
                         if (Tracking.Oldest == null || Tracking.Oldest > status.Id) Tracking.Oldest = status.Id;
                         if (Tracking.Latest == null || Tracking.Latest < status.Id) Tracking.Latest = status.Id;
-                        App.GetCurrent().Config.Save();
+                        _config.Save();
 
                         if (!_isCanceled) _isCanceled = isCanceled;
                         if (isCanceled) break;
@@ -155,8 +182,9 @@ namespace Twimager.Windows
                     }
                 }
             }
-            
-            App.GetCurrent().IsBusy = false;
+
+            await _logger.LogAsync("Successfully updated the tracking");
+            _app.IsBusy = false;
             Close();
         }
 
@@ -167,6 +195,8 @@ namespace Twimager.Windows
             {
                 if (status.IsTruncated ?? false)
                 {
+                    await _logger.LogAsync("  Truncated status, loading full status");
+
                     entities = (
                         await _twitter.Statuses.ShowAsync(
                             status.Id,
@@ -208,6 +238,7 @@ namespace Twimager.Windows
                         Status = name;
                         
                         if (File.Exists(file)) break;
+                        await _logger.LogAsync($"  + {name}");
                         await wc.DownloadFileTaskAsync(url, file);
                     }
                     catch

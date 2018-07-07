@@ -1,14 +1,23 @@
-﻿using Twimager.Objects;
+﻿using System.Threading.Tasks;
+using Twimager.Objects;
 
 namespace Twimager.Utilities
 {
     public static class TrackingUtility
     {
-        public static void Reset(this ITracking tracking)
+        private static App App { get => App.GetCurrent(); }
+        private static Logger Logger { get => App.Logger; }
+        private static Config Config { get => App.Config; }
+
+        public static async Task ResetAsync(this ITracking tracking)
         {
+            await Logger.LogAsync($"Resetting: {tracking.ToString()}");
+
             tracking.IsCompleted = false;
             tracking.Oldest = tracking.Latest = null;
-            App.GetCurrent().Config.Save();
+
+            Config.Save();
+            await Logger.LogAsync("Successfully reset the tracking");
         }
     }
 }

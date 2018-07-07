@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Twimager.Objects;
+using Twimager.Utilities;
 
 namespace Twimager.Windows
 {
@@ -71,12 +72,16 @@ namespace Twimager.Windows
         private long _current;
         private long _count;
         private double _percentage;
+        private App _app;
+        private Logger _logger;
         private ITracking _tracking;
 
         public PurgeWindow(ITracking tracking)
         {
             InitializeComponent();
 
+            _app = App.GetCurrent();
+            _logger = _app.Logger;
             _tracking = tracking;
             _directory = FileName = $"{App.Destination}/{tracking.Directory}";
 
@@ -91,7 +96,8 @@ namespace Twimager.Windows
 
         private async void PurgeAsync()
         {
-            App.GetCurrent().IsBusy = true;
+            _app.IsBusy = true;
+            await _logger.LogAsync($"Starting to purge: {_tracking.ToString()}");
 
             var files = await Task.Run(() =>
             {
@@ -106,6 +112,7 @@ namespace Twimager.Windows
                 FileName = file;
                 Current++;
 
+                await _logger.LogAsync($"- {file}");
                 await Task.Run(() =>
                 {
                     if (File.Exists(file)) File.Delete(file);
@@ -126,7 +133,8 @@ namespace Twimager.Windows
             Close();
             dialog.Show();
 
-            App.GetCurrent().IsBusy = false;
+            await _logger.LogAsync("Successfully purged the tracking");
+            _app.IsBusy = false;
         }
 
         protected void OnPropertyChanged(string name)

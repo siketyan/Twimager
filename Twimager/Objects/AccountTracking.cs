@@ -115,5 +115,10 @@ namespace Twimager.Objects
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
+
+        public override string ToString()
+        {
+            return $"Account: {ScreenName} ({Id})";
+        }
     }
 }

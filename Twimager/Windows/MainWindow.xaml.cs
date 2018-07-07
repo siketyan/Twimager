@@ -133,11 +133,11 @@ namespace Twimager.Windows
             window.Show();
         }
 
-        private void ResetTracking(object sender, RoutedEventArgs e)
+        private async void ResetTrackingAsync(object sender, RoutedEventArgs e)
         {
             if (IsAppBusy()) return;
             if (!(TrackingsList.SelectedItem is ITracking tracking)) return;
-            tracking.Reset();
+            await tracking.ResetAsync();
 
             var dialog = new TaskDialog
             {
@@ -151,7 +151,7 @@ namespace Twimager.Windows
             dialog.Show();
         }
 
-        private void PurgeTracking(object sender, RoutedEventArgs e)
+        private async void PurgeTrackingAsync(object sender, RoutedEventArgs e)
         {
             if (IsAppBusy()) return;
             if (!(TrackingsList.SelectedItem is ITracking tracking)) return;
@@ -166,7 +166,7 @@ namespace Twimager.Windows
             };
 
             if (question.Show() != TaskDialogResult.Yes) return;
-            tracking.Reset();
+            await tracking.ResetAsync();
 
             var window = new PurgeWindow(tracking)
             {
