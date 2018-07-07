@@ -37,11 +37,10 @@ namespace Twimager.Utilities
             var inner = e;
             while (inner != null)
             {
-                await LogAsync(
-                    $"{(inner == e ? "" : "Caused by: ")}{e.GetType().FullName}: {e.Message}"
-                );
-
+                await LogAsync($"{(inner == e ? "" : "Caused by: ")}{e.GetType().FullName}: {e.Message}");
                 await LogAsync(e.StackTrace);
+
+                inner = e.InnerException;
             }
         }
         
