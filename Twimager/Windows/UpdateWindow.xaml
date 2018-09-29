@@ -11,7 +11,7 @@
         Topmost="True" ShowInTaskbar="False">
     <Window.Resources>
         <conv:ObjectTypeConverter x:Key="ObjectType" />
-        
+
         <DataTemplate x:Key="AccountTemplate">
             <DockPanel>
                 <Ellipse Width="48" Height="48" VerticalAlignment="Top">
@@ -75,7 +75,7 @@
             </DockPanel>
         </DataTemplate>
     </Window.Resources>
-    
+
     <Grid>
         <StackPanel Margin="15,10">
             <ContentControl Content="{Binding Tracking}">

@@ -31,7 +31,7 @@ namespace Twimager.Windows
                 OnPropertyChanged("Status");
             }
         }
-        
+
         public ITracking Tracking { get; }
 
         private bool _isCanceled = false;
@@ -40,7 +40,7 @@ namespace Twimager.Windows
         private Logger _logger;
         private Config _config;
         private Tokens _twitter;
-        
+
         public UpdateWindow(ITracking tracking)
         {
             InitializeComponent();
@@ -161,12 +161,12 @@ namespace Twimager.Windows
                     {
                         statuses.OrderBy(x => x.Id);
                     }
-                    
+
                     foreach (var status in statuses)
                     {
                         await _logger.LogAsync($"+ {status.Id}");
                         var isCanceled = await DownloadMediaAsync(wc, status, dir);
-                        
+
                         if (Tracking.Oldest == null || Tracking.Oldest > status.Id) Tracking.Oldest = status.Id;
                         if (Tracking.Latest == null || Tracking.Latest < status.Id) Tracking.Latest = status.Id;
                         _config.Save();
@@ -236,7 +236,7 @@ namespace Twimager.Windows
                         }
 
                         Status = name;
-                        
+
                         if (File.Exists(file)) break;
                         await _logger.LogAsync($"  + {name}");
                         await wc.DownloadFileTaskAsync(url, file);

@@ -1,6 +1,6 @@
 ﻿/*
  * TwitterKeys Class Template
- * 
+ *
  * Uncomment codes below and put your consumer key and secret into the fields.
  */
 

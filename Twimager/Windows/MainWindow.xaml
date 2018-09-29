@@ -10,7 +10,7 @@
         Closing="OnClosing">
     <Window.Resources>
         <conv:ObjectTypeConverter x:Key="ObjectType" />
-        
+
         <DataTemplate x:Key="AccountTemplate">
             <Border Padding="10,5">
                 <DockPanel>
@@ -153,7 +153,7 @@
                                     <MenuItem Header="Move down" Click="MoveTrackingDown" />
                                 </ContextMenu>
                             </Border.ContextMenu>
-                            
+
                             <ItemsPresenter />
                         </Border>
                     </ControlTemplate>

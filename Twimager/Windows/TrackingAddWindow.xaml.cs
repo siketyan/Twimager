@@ -88,7 +88,7 @@ namespace Twimager.Windows
                 Name = list.Name,
                 FullName = list.FullName
             };
-            
+
             Close();
         }
 

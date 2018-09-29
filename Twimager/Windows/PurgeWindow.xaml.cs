@@ -14,7 +14,7 @@ namespace Twimager.Windows
     public partial class PurgeWindow : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        
+
         public string Status
         {
             get => _status;
@@ -120,7 +120,7 @@ namespace Twimager.Windows
             }
 
             if (Directory.Exists(_directory)) Directory.Delete(_directory);
-            
+
             var dialog = new TaskDialog
             {
                 Icon = TaskDialogStandardIcon.Information,

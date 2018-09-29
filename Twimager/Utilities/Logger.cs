@@ -43,7 +43,7 @@ namespace Twimager.Utilities
                 inner = e.InnerException;
             }
         }
-        
+
         private string AppendDateTime(string message)
         {
             return $"{DateTime.Now.ToString()}: {message}";
