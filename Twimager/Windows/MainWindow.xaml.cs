@@ -68,11 +68,7 @@ namespace Twimager.Windows
         {
             if (IsAppBusy()) return;
 
-            var window = new UpdateWindow((sender as Button).Tag as ITracking)
-            {
-                Owner = this
-            };
-
+            var window = new UpdateWindow((sender as Button).Tag as ITracking);
             window.ShowAndUpdate();
         }
 
