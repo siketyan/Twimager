@@ -214,10 +214,10 @@ namespace Twimager.Windows
 
                 while (true)
                 {
+                    string url, name, file = null;
+
                     try
                     {
-                        string url, name, file;
-
                         if (media.Type == "video")
                         {
                             var variant = media.VideoInfo.Variants.OrderByDescending(x => x.Bitrate ?? 0).First();
@@ -243,6 +243,8 @@ namespace Twimager.Windows
                     }
                     catch
                     {
+                        if (File.Exists(file)) File.Delete(file);
+
                         var dialog = new TaskDialog
                         {
                             Icon = TaskDialogStandardIcon.Error,
