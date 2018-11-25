@@ -175,6 +175,7 @@ namespace Twimager.Windows
 
             Trackings.Remove(tracking);
             Trackings.Insert(index - 1, tracking);
+            _app.Config.Save();
         }
 
         private void MoveTrackingDown(object sender, RoutedEventArgs e)
@@ -184,6 +185,7 @@ namespace Twimager.Windows
 
             Trackings.Remove(tracking);
             Trackings.Insert(index + 1, tracking);
+            _app.Config.Save();
         }
 
         private bool IsAppBusy()
