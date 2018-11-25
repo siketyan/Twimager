@@ -1,0 +1,114 @@
+﻿<Window x:Class="Twimager.Windows.ExploreWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Twimager" Height="660" Width="916"
+        Loaded="InitAsync">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <DockPanel LastChildFill="False"
+                   Background="Transparent">
+            <Button Template="{StaticResource IconButtonTemplate}"
+                    FontSize="22"
+                    ToolTip="Remove the image"></Button>
+            <Button Template="{StaticResource IconButtonTemplate}"
+                    FontSize="21" Margin="4,0"
+                    ToolTip="Open the image with system viewer"></Button>
+        </DockPanel>
+
+        <Grid Grid.Row="1">
+            <Label x:Name="Loading"
+                   VerticalContentAlignment="Center"
+                   HorizontalContentAlignment="Center">
+                Loading images, please wait...
+            </Label>
+
+            <ScrollViewer Style="{StaticResource CustomScrollViewerStyle}"
+                          HorizontalScrollBarVisibility="Disabled"
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalContentAlignment="Stretch"
+                          PreviewMouseWheel="OnPreviewMouseWheel">
+                <ListView x:Name="ImagesList"
+                          Background="Transparent"
+                          BorderThickness="0"
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                          ItemsSource="{Binding Images}"
+                          SelectionChanged="OnSelectionChanged">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListViewItem}">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#EEEE" />
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="#DDDD" />
+                                </Trigger>
+                            </Style.Triggers>
+
+                            <Setter Property="Margin" Value="5"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ContentControl}">
+                                        <Border Background="{TemplateBinding Background}">
+                                            <ContentPresenter />
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Image Width="136" Height="136">
+                                <Image.Source>
+                                    <BitmapImage UriSource="{Binding Path}"
+                                                 DecodePixelHeight="136" />
+                                </Image.Source>
+                            </Image>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </ScrollViewer>
+
+            <Grid x:Name="Viewer" Background="#8000" Visibility="Hidden">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="64" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="64" />
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0"
+                        Template="{StaticResource ViewerIconButtonTemplate}"
+                        FontSize="36"
+                        ToolTip="Previous image"
+                        HorizontalAlignment="Center"
+                        Click="PreviousImage"></Button>
+                <Image x:Name="SelectedImage" Grid.Column="1"></Image>
+                <Button Grid.Column="2"
+                        Template="{StaticResource ViewerIconButtonTemplate}"
+                        FontSize="36"
+                        ToolTip="Next image"
+                        HorizontalAlignment="Center"
+                        Click="NextImage"></Button>
+                <Button Grid.Column="2"
+                        Template="{StaticResource ViewerIconButtonTemplate}"
+                        FontSize="32"
+                        ToolTip="Close the viewer"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                        Click="CloseViewer"></Button>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

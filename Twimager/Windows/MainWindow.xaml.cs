@@ -1,8 +1,6 @@
 ﻿using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -54,14 +52,10 @@ namespace Twimager.Windows
 
         private void ExploreTracking(object sender, RoutedEventArgs e)
         {
-            if (!(TrackingsList.SelectedItem is ITracking tracking)) return;
+            var tracking = TrackingsList.SelectedItem;
+            if (tracking == null || !(tracking is ITracking)) return;
 
-            Process.Start(
-                "explorer.exe",
-                Path.GetFullPath(
-                    $"{App.Destination}/{tracking.Directory}"
-                )
-            );
+            new ExploreWindow(tracking as ITracking).Show();
         }
 
         private void UpdateTracking(object sender, RoutedEventArgs e)

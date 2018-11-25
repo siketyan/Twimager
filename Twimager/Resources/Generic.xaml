@@ -10,6 +10,15 @@
                Content="{TemplateBinding Content}" />
     </ControlTemplate>
 
+    <ControlTemplate x:Key="ViewerIconButtonTemplate" TargetType="{x:Type Button}">
+        <Label Foreground="#FFF"
+               FontSize="{TemplateBinding FontSize}"
+               FontFamily="../Resources/#Material Icons"
+               VerticalContentAlignment="Center"
+               Cursor="Hand"
+               Content="{TemplateBinding Content}" />
+    </ControlTemplate>
+
     <sys:Double x:Key="ScrollBarSize">5</sys:Double>
     <Thickness x:Key="ScrollBarMargin">3</Thickness>
     <SolidColorBrush x:Key="ScrollBarColorBrush" Color="#555" />

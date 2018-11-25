@@ -21,7 +21,7 @@
     <UpdatePackageVersion>False</UpdatePackageVersion>
     <AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
     <InheritWinAppVersionFrom>AssemblyVersion</InheritWinAppVersionFrom>
-    <ApplicationVersion>0.1.0.167</ApplicationVersion>
+    <ApplicationVersion>0.1.0.219</ApplicationVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -84,6 +84,7 @@
     </ApplicationDefinition>
     <Compile Include="Converters\ObjectTypeConverter.cs" />
     <Compile Include="Enums\ErrorDialogResult.cs" />
+    <Compile Include="Objects\Image.cs" />
     <Compile Include="Objects\ITracking.cs" />
     <Compile Include="Objects\SearchTracking.cs" />
     <Compile Include="Objects\ListTracking.cs" />
@@ -91,6 +92,9 @@
     <Compile Include="Utilities\TrackingUtility.cs" />
     <Compile Include="Windows\ConfigWindow.xaml.cs">
       <DependentUpon>ConfigWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\ExploreWindow.xaml.cs">
+      <DependentUpon>ExploreWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\PurgeWindow.xaml.cs">
       <DependentUpon>PurgeWindow.xaml</DependentUpon>
@@ -103,6 +107,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\ConfigWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ExploreWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
