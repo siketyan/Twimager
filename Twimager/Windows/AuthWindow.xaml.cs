@@ -19,12 +19,15 @@ namespace Twimager.Windows
         {
             InitializeComponent();
 
-            _session = OAuth.Authorize(
+            var task = OAuth.AuthorizeAsync(
                 TwitterKeys.ConsumerKey,
                 TwitterKeys.ConsumerSecret,
                 CallbackUri
             );
 
+            task.Wait();
+
+            _session = task.Result;
             Browser.Source = _session.AuthorizeUri;
         }
 
