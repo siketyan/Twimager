@@ -10,7 +10,7 @@ namespace Twimager.Windows
     /// </summary>
     public partial class AuthWindow
     {
-        private const string CallbackUri = "https://callback.sikeserver.com/twimager";
+        private const string CallbackUri = "https://callback.s6n.jp/";
 
         public Tokens Result { get; private set; }
         private readonly OAuth.OAuthSession _session;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using CoreTweet;
 using Twimager.Objects;
@@ -32,6 +33,19 @@ namespace Twimager
         {
             base.OnStartup(e);
 
+            try
+            {
+                await Init();
+            }
+            catch (Exception ex)
+            {
+                await Logger.LogAsync(ex.Message);
+                throw;
+            }
+        }
+
+        private async Task Init()
+        {
             Directory.CreateDirectory(LogDirectory);
             Logger = new Logger($"{LogDirectory}/{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.log");
 

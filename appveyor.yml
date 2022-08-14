@@ -1,7 +1,9 @@
 image: Visual Studio 2022
 environment:
   secret:
-    secure: K+Ons0QEVyWnUNx3+GhHNQ0SASmKQohnHBySnv3SfhnoB4OjLpaMlFevjHuLWzptAaXlQSqqC66P79XjS2bGCM+QzPj8j+xAIy2VcjVcAY7qs3iSrV39GtuCgkdreknBfv6o+5oZr67khBm/DNECpGyIcB5UmRC+w9MgJb9ZUOU=
+    secure: DJozVgpz51jHWTRg0o0Ial/k/piev5RV973z7Jl6Yyh8JemzVPoDUL8DUiVNtp/U
+  salt:
+    secure: 7hZu0YMbZBd+uTd8KItAK/VHWNR7ZLOZaBEYpcK4bJNVNTKc0SO6B4id8F9DtKsQn95nE6wLUIyveAizwsMKBA==
 init:
   - ps: >-
       if ($env:APPVEYOR_REPO_TAG -eq "true")
@@ -14,7 +16,7 @@ init:
       }
 install:
   - ps: iex ((New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/appveyor/secure-file/master/install.ps1'))
-  - cmd: appveyor-tools\secure-file -decrypt Twimager\Resources\TwitterKeys.cs.enc -secret %secret%
+  - cmd: appveyor-tools\secure-file -decrypt Twimager\Resources\TwitterKeys.cs.enc -secret %secret% -salt %salt%
   - nuget restore
 platform: Any CPU
 configuration: Release
