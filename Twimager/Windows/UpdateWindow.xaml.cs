@@ -2,6 +2,7 @@
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace Twimager.Windows
     /// <summary>
     /// StatusWindow.xaml の相互作用ロジック
     /// </summary>
+    [SuppressMessage("Interoperability", "CA1416:Validate platform compatibility")]
     public partial class UpdateWindow : INotifyPropertyChanged
     {
         private const int WindowMargin = 32;

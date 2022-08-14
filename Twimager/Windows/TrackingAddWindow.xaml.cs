@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using CoreTweet;
 using Microsoft.WindowsAPICodePack.Dialogs;
@@ -9,6 +10,7 @@ namespace Twimager.Windows
     /// <summary>
     /// AccountAddWindow.xaml の相互作用ロジック
     /// </summary>
+    [SuppressMessage("Interoperability", "CA1416:Validate platform compatibility")]
     public partial class TrackingAddWindow
     {
         public ITracking Tracking { get; private set; }

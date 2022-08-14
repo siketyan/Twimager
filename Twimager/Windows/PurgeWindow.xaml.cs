@@ -1,5 +1,6 @@
 ﻿using Microsoft.WindowsAPICodePack.Dialogs;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading.Tasks;
 using Twimager.Objects;
@@ -10,6 +11,7 @@ namespace Twimager.Windows
     /// <summary>
     /// PurgeWindow.xaml の相互作用ロジック
     /// </summary>
+    [SuppressMessage("Interoperability", "CA1416:Validate platform compatibility")]
     public partial class PurgeWindow : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
