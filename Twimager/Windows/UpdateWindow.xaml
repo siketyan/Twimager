@@ -4,15 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:conv="clr-namespace:Twimager.Converters"
+        xmlns:obj="clr-namespace:Twimager.Objects"
+        xmlns:ct="clr-namespace:CoreTweet;assembly=CoreTweet"
         mc:Ignorable="d"
         Title="StatusWindow" Width="334" Height="96"
         WindowStyle="None" AllowsTransparency="True"
         BorderBrush="#39F" BorderThickness="1"
-        Topmost="True" ShowInTaskbar="False">
+        Topmost="True" ShowInTaskbar="False"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <Window.Resources>
         <conv:ObjectTypeConverter x:Key="ObjectType" />
 
-        <DataTemplate x:Key="AccountTemplate">
+        <DataTemplate x:Key="AccountTemplate" DataType="{x:Type ct:User}">
             <DockPanel>
                 <Ellipse Width="48" Height="48" VerticalAlignment="Top">
                     <Ellipse.Fill>
@@ -32,7 +35,7 @@
             </DockPanel>
         </DataTemplate>
 
-        <DataTemplate x:Key="ListTemplate">
+        <DataTemplate x:Key="ListTemplate" DataType="{x:Type obj:ListTracking}">
             <DockPanel>
                 <Grid>
                     <Ellipse Width="48" Height="48" Fill="#DDD" VerticalAlignment="Top" />
@@ -55,7 +58,7 @@
             </DockPanel>
         </DataTemplate>
 
-        <DataTemplate x:Key="SearchTemplate">
+        <DataTemplate x:Key="SearchTemplate" DataType="{x:Type obj:SearchTracking}">
             <DockPanel>
                 <Grid>
                     <Ellipse Width="48" Height="48" Fill="#DDD" VerticalAlignment="Top" />

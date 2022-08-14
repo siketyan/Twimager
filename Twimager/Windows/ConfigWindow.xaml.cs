@@ -11,7 +11,7 @@ namespace Twimager.Windows
         public bool IgnoreRetweets { get; set; }
         public bool IgnoreReplies { get; set; }
 
-        private Config _config;
+        private readonly Config _config;
 
         public ConfigWindow()
         {

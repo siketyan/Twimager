@@ -2,8 +2,8 @@
 Download images from listed Twitter accounts, and keep them latest.
 
 ## Environment
-- Windows 10
-- .NET Framework 4.7.1
+- Windows 10+
+- .NET 6
 
 ## Installation
 1. Download ZIP file at [Releases](https://github.com/Siketyan/Twimager/releases) page.

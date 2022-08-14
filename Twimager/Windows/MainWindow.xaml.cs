@@ -1,6 +1,7 @@
 ﻿using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,12 +14,13 @@ namespace Twimager.Windows
     /// <summary>
     /// MainWindow.xaml の相互作用ロジック
     /// </summary>
+    [SuppressMessage("Interoperability", "CA1416:Validate platform compatibility")]
     public partial class MainWindow
     {
         public ObservableCollection<ITracking> Trackings { get; }
 
         private int _current;
-        private App _app;
+        private readonly App _app;
 
         public MainWindow()
         {
@@ -44,7 +46,7 @@ namespace Twimager.Windows
         private void RemoveTracking(object sender, RoutedEventArgs e)
         {
             var tracking = TrackingsList.SelectedItem;
-            if (tracking == null || !(tracking is ITracking)) return;
+            if (tracking is not ITracking) return;
 
             Trackings.Remove(tracking as ITracking);
             _app.Config.Save();
@@ -53,7 +55,7 @@ namespace Twimager.Windows
         private void ExploreTracking(object sender, RoutedEventArgs e)
         {
             var tracking = TrackingsList.SelectedItem;
-            if (tracking == null || !(tracking is ITracking)) return;
+            if (tracking is not ITracking) return;
 
             new ExploreWindow(tracking as ITracking).Show();
         }
@@ -62,7 +64,7 @@ namespace Twimager.Windows
         {
             if (IsAppBusy()) return;
 
-            var window = new UpdateWindow((sender as Button).Tag as ITracking);
+            var window = new UpdateWindow((sender as Button)?.Tag as ITracking);
             window.ShowAndUpdate();
         }
 
@@ -94,7 +96,7 @@ namespace Twimager.Windows
             var window = new UpdateWindow(tracking);
             if (_current < Trackings.Count - 1)
             {
-                window.Closing += (sender, e) =>
+                window.Closing += (_, _) =>
                 {
                     UpdateNext();
                 };
@@ -122,7 +124,7 @@ namespace Twimager.Windows
         private async void ResetTrackingAsync(object sender, RoutedEventArgs e)
         {
             if (IsAppBusy()) return;
-            if (!(TrackingsList.SelectedItem is ITracking tracking)) return;
+            if (TrackingsList.SelectedItem is not ITracking tracking) return;
             await tracking.ResetAsync();
 
             var dialog = new TaskDialog
@@ -140,7 +142,7 @@ namespace Twimager.Windows
         private async void PurgeTrackingAsync(object sender, RoutedEventArgs e)
         {
             if (IsAppBusy()) return;
-            if (!(TrackingsList.SelectedItem is ITracking tracking)) return;
+            if (TrackingsList.SelectedItem is not ITracking tracking) return;
 
             var question = new TaskDialog
             {
@@ -182,7 +184,7 @@ namespace Twimager.Windows
             _app.Config.Save();
         }
 
-        private bool IsAppBusy()
+        private static bool IsAppBusy()
         {
             if (!App.GetCurrent().IsBusy) return false;
 

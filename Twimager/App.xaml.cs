@@ -19,9 +19,9 @@ namespace Twimager
         private const string ConfigFile = "config.json";
 
         public bool IsBusy { get; set; }
-        public Logger Logger { get; set; }
-        public Config Config { get; set; }
-        public Tokens Twitter { get; set; }
+        public Logger Logger { get; private set; }
+        public Config Config { get; private set; }
+        public Tokens Twitter { get; private set; }
 
         public static App GetCurrent()
         {
@@ -33,7 +33,7 @@ namespace Twimager
             base.OnStartup(e);
 
             Directory.CreateDirectory(LogDirectory);
-            Logger = new Logger($"{LogDirectory}/{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}.log");
+            Logger = new Logger($"{LogDirectory}/{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.log");
 
             await Logger.LogAsync("Loading config");
             Config = Config.Open(ConfigFile);

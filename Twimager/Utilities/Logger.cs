@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -6,15 +7,13 @@ namespace Twimager.Utilities
 {
     public class Logger
     {
-        private readonly string _path;
-        private StreamWriter _writer;
+        private readonly StreamWriter _writer;
 
         public Logger(string path = null)
         {
-            _path = path;
+            if (path == null) return;
 
-            if (_path == null) return;
-            _writer = File.AppendText(_path);
+            _writer = File.AppendText(path);
             _writer.AutoFlush = true;
         }
 
@@ -46,7 +45,7 @@ namespace Twimager.Utilities
 
         private string AppendDateTime(string message)
         {
-            return $"{DateTime.Now.ToString()}: {message}";
+            return $"{DateTime.Now.ToString(CultureInfo.CurrentCulture)}: {message}";
         }
     }
 }

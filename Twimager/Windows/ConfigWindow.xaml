@@ -7,7 +7,8 @@
         Title="Config" Width="160" Height="140"
         Icon="../Resources/icon.ico"
         WindowStartupLocation="CenterOwner"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <Grid>
         <StackPanel Margin="15,10">
             <CheckBox Margin="3" IsChecked="{Binding IgnoreRetweets, Mode=TwoWay}">Ignore retweets</CheckBox>

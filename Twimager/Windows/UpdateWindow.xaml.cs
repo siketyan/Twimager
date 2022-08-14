@@ -1,22 +1,24 @@
-﻿using Microsoft.WindowsAPICodePack.Dialogs;
+﻿using CoreTweet;
+using Microsoft.WindowsAPICodePack.Dialogs;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
-using CoreTweet;
 using Twimager.Enums;
 using Twimager.Objects;
-using System.Collections.Generic;
 using Twimager.Utilities;
-using System;
 
 namespace Twimager.Windows
 {
     /// <summary>
     /// StatusWindow.xaml の相互作用ロジック
     /// </summary>
+    [SuppressMessage("Interoperability", "CA1416:Validate platform compatibility")]
     public partial class UpdateWindow : INotifyPropertyChanged
     {
         private const int WindowMargin = 32;
@@ -34,12 +36,12 @@ namespace Twimager.Windows
 
         public ITracking Tracking { get; }
 
-        private bool _isCanceled = false;
+        private bool _isCanceled;
         private string _status = "Initializing...";
-        private App _app;
-        private Logger _logger;
-        private Config _config;
-        private Tokens _twitter;
+        private readonly App _app;
+        private readonly Logger _logger;
+        private readonly Config _config;
+        private readonly Tokens _twitter;
 
         public UpdateWindow(ITracking tracking)
         {
@@ -72,7 +74,7 @@ namespace Twimager.Windows
         private async void UpdateAsync()
         {
             _app.IsBusy = true;
-            await _logger.LogAsync($"Starting to update: {Tracking.ToString()}");
+            await _logger.LogAsync($"Starting to update: {Tracking}");
 
             await _logger.LogAsync($"Updating summary");
             var task = Tracking.UpdateSummaryAsync();
@@ -93,7 +95,7 @@ namespace Twimager.Windows
                 await _logger.LogAsync($"Created directory: {dir}");
             }
 
-            using (var wc = new WebClient())
+            using (var wc = new HttpClient())
             {
                 while (true)
                 {
@@ -116,7 +118,7 @@ namespace Twimager.Windows
                                 StandardButtons = TaskDialogStandardButtons.Ok,
                                 Caption = "Twimager",
                                 InstructionText = "The rate limit of Twitter API exceeded.",
-                                Text = $"Try again after {e.RateLimit.Reset.LocalDateTime.ToString()}"
+                                Text = $"Try again after {e.RateLimit.Reset.LocalDateTime.ToString(CultureInfo.CurrentCulture)}"
                             };
 
                             dialog.Show();
@@ -140,7 +142,8 @@ namespace Twimager.Windows
                         break;
                     }
 
-                    if (!statuses.Any(x => x.Id != (Tracking.IsCompleted ? Tracking.Latest : Tracking.Oldest)))
+                    var enumerable = statuses.ToList();
+                    if (enumerable.All(x => x.Id == (Tracking.IsCompleted ? Tracking.Latest : Tracking.Oldest)))
                     {
                         if (!Tracking.IsCompleted)
                         {
@@ -153,16 +156,13 @@ namespace Twimager.Windows
                         break;
                     }
 
-                    if (Tracking.Oldest < statuses.Last().Id)
+                    var sorted = (Tracking.Oldest < enumerable.Last().Id) switch
                     {
-                        statuses.OrderByDescending(x => x.Id);
-                    }
-                    else
-                    {
-                        statuses.OrderBy(x => x.Id);
-                    }
+                        true => enumerable.OrderByDescending(x => x.Id),
+                        false => enumerable.OrderBy(x => x.Id),
+                    };
 
-                    foreach (var status in statuses)
+                    foreach (var status in sorted)
                     {
                         await _logger.LogAsync($"+ {status.Id}");
                         var isCanceled = await DownloadMediaAsync(wc, status, dir);
@@ -188,12 +188,14 @@ namespace Twimager.Windows
             Close();
         }
 
-        private async Task<bool> DownloadMediaAsync(WebClient wc, Status status, string destination)
+        private async Task<bool> DownloadMediaAsync(HttpClient wc, Status status, string destination)
         {
             var entities = status.ExtendedEntities;
             if (entities == null)
             {
+#pragma warning disable CS0618
                 if (status.IsTruncated ?? false)
+#pragma warning restore CS0618
                 {
                     await _logger.LogAsync("  Truncated status, loading full status");
 
@@ -239,7 +241,9 @@ namespace Twimager.Windows
 
                         if (File.Exists(file)) break;
                         await _logger.LogAsync($"  + {name}");
-                        await wc.DownloadFileTaskAsync(url, file);
+
+                        await using var stream = new FileStream(file, FileMode.Create, FileAccess.Write);
+                        await (await wc.GetStreamAsync(url)).CopyToAsync(stream);
                     }
                     catch
                     {
@@ -257,19 +261,19 @@ namespace Twimager.Windows
                         var skipBtn = new TaskDialogButton { Text = "Skip" };
                         var cancelBtn = new TaskDialogButton { Text = "Cancel" };
 
-                        retryBtn.Click += (sender, e) =>
+                        retryBtn.Click += (_, _) =>
                         {
                             result = ErrorDialogResult.Retry;
                             dialog.Close();
                         };
 
-                        skipBtn.Click += (sender, e) =>
+                        skipBtn.Click += (_, _) =>
                         {
                             result = ErrorDialogResult.Skip;
                             dialog.Close();
                         };
 
-                        cancelBtn.Click += (sender, e) =>
+                        cancelBtn.Click += (_, _) =>
                         {
                             result = ErrorDialogResult.Cancel;
                             dialog.Close();
@@ -293,7 +297,7 @@ namespace Twimager.Windows
             return false;
         }
 
-        protected void OnPropertyChanged(string name)
+        private void OnPropertyChanged(string name)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
