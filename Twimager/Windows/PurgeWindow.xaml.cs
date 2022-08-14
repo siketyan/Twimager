@@ -1,7 +1,6 @@
 ﻿using Microsoft.WindowsAPICodePack.Dialogs;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Twimager.Objects;
 using Twimager.Utilities;
@@ -41,7 +40,6 @@ namespace Twimager.Windows
             set
             {
                 _current = value;
-                Percentage = _current / _count;
                 OnPropertyChanged("Current");
             }
         }
@@ -49,32 +47,21 @@ namespace Twimager.Windows
         public long Count
         {
             get => _count;
-            set
+            private set
             {
                 _count = value;
                 OnPropertyChanged("Count");
             }
         }
 
-        public double Percentage
-        {
-            get => _percentage;
-            set
-            {
-                _percentage = value;
-                OnPropertyChanged("Percentage");
-            }
-        }
-
-        private string _status = "Calclating...";
+        private string _status = "Calculating...";
         private string _fileName;
-        private string _directory;
+        private readonly string _directory;
         private long _current;
         private long _count;
-        private double _percentage;
-        private App _app;
-        private Logger _logger;
-        private ITracking _tracking;
+        private readonly App _app;
+        private readonly Logger _logger;
+        private readonly ITracking _tracking;
 
         public PurgeWindow(ITracking tracking)
         {
@@ -97,15 +84,12 @@ namespace Twimager.Windows
         private async void PurgeAsync()
         {
             _app.IsBusy = true;
-            await _logger.LogAsync($"Starting to purge: {_tracking.ToString()}");
+            await _logger.LogAsync($"Starting to purge: {_tracking}");
 
-            var files = await Task.Run(() =>
-            {
-                return Directory.GetFiles(_directory, "*.*", SearchOption.AllDirectories);
-            });
+            var files = await Task.Run(() => Directory.GetFiles(_directory, "*.*", SearchOption.AllDirectories));
 
             Status = "Deleting files...";
-            Count = files.Count();
+            Count = files.Length;
 
             foreach (var file in files)
             {
@@ -137,7 +121,7 @@ namespace Twimager.Windows
             _app.IsBusy = false;
         }
 
-        protected void OnPropertyChanged(string name)
+        private void OnPropertyChanged(string name)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }

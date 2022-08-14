@@ -66,15 +66,8 @@ namespace Twimager.Objects
         private string _name;
         private string _profileImageUrl;
 
-        private Config Config
-        {
-            get => App.GetCurrent().Config;
-        }
-
-        private Tokens Twitter
-        {
-            get => App.GetCurrent().Twitter;
-        }
+        private static Config Config => App.GetCurrent().Config;
+        private static Tokens Twitter => App.GetCurrent().Twitter;
 
         public async Task UpdateSummaryAsync()
         {
@@ -98,20 +91,18 @@ namespace Twimager.Objects
                     max_id: Oldest
                 );
             }
-            else
-            {
-                return await Twitter.Statuses.UserTimelineAsync(
-                    Id,
-                    200,
-                    trim_user: true,
-                    exclude_replies: Config.IgnoreReplies,
-                    include_rts: !Config.IgnoreRetweets,
-                    since_id: Latest
-                );
-            }
+
+            return await Twitter.Statuses.UserTimelineAsync(
+                Id,
+                200,
+                trim_user: true,
+                exclude_replies: Config.IgnoreReplies,
+                include_rts: !Config.IgnoreRetweets,
+                since_id: Latest
+            );
         }
 
-        protected void OnPropertyChanged(string name)
+        private void OnPropertyChanged(string name)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }

@@ -1,10 +1,8 @@
-﻿using CoreTweet;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
@@ -24,10 +22,7 @@ namespace Twimager.Windows
         public ObservableCollection<Image> Images { get; }
         public ITracking Tracking { get; }
 
-        private App _app;
-        private Logger _logger;
-        private Config _config;
-        private Tokens _twitter;
+        private readonly Logger _logger;
 
         public ExploreWindow(ITracking tracking)
         {
@@ -35,10 +30,7 @@ namespace Twimager.Windows
 
             Images = new ObservableCollection<Image>();
             Tracking = tracking;
-            _app = App.GetCurrent();
-            _logger = _app.Logger;
-            _config = _app.Config;
-            _twitter = _app.Twitter;
+            _logger = App.GetCurrent().Logger;
 
             DataContext = this;
         }

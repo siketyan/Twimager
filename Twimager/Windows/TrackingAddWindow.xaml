@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="Add a tracking" Width="285" Height="145"
-        ResizeMode="NoResize" Loaded="InitAsync">
+        ResizeMode="NoResize" Loaded="InitAsync"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <Grid>
         <TabControl Margin="15,10">
             <TabItem Header="Account">

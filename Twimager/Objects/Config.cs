@@ -16,8 +16,7 @@ namespace Twimager.Objects
         public Credentials Credentials { get; set; }
 
         [JsonProperty("trackings")]
-        public ObservableCollection<ITracking> Trackings { get; set; }
-            = new ObservableCollection<ITracking>();
+        public ObservableCollection<ITracking> Trackings { get; set; } = new();
 
 
         [JsonIgnore]
@@ -39,7 +38,11 @@ namespace Twimager.Objects
                     TypeNameHandling = TypeNameHandling.Auto
                 });
 
-                config._path = path;
+                if (config != null)
+                {
+                    config._path = path;
+                }
+
                 return config;
             }
             catch (FileNotFoundException)

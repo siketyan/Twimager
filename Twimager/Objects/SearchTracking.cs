@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using CoreTweet;
 using Newtonsoft.Json;
@@ -25,13 +26,10 @@ namespace Twimager.Objects
         public long? Latest { get; set; }
 
         [JsonIgnore]
-        public string Directory { get => $"{DirectoryBase}/{ReplaceInvalidChars(Query)}"; }
+        public string Directory => $"{DirectoryBase}/{ReplaceInvalidChars(Query)}";
 
 
-        private Tokens Twitter
-        {
-            get => App.GetCurrent().Twitter;
-        }
+        private static Tokens Twitter => App.GetCurrent().Twitter;
 
         public Task UpdateSummaryAsync() => null; // Ignore
 
@@ -45,24 +43,19 @@ namespace Twimager.Objects
                     max_id: Oldest
                 );
             }
-            else
-            {
-                return await Twitter.Search.TweetsAsync(
-                    Query,
-                    count: 200,
-                    since_id: Latest
-                );
-            }
+
+            return await Twitter.Search.TweetsAsync(
+                Query,
+                count: 200,
+                since_id: Latest
+            );
         }
 
-        private string ReplaceInvalidChars(string str)
+        private static string ReplaceInvalidChars(string str)
         {
-            foreach (var ch in Path.GetInvalidPathChars())
-            {
-                str = str.Replace(ch, DefaultPathChar);
-            }
-
-            return str;
+            return Path
+                .GetInvalidPathChars()
+                .Aggregate(str, (current, ch) => current.Replace(ch, DefaultPathChar));
         }
 
         public override string ToString()

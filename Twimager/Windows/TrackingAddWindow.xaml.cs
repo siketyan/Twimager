@@ -12,7 +12,7 @@ namespace Twimager.Windows
     public partial class TrackingAddWindow
     {
         public ITracking Tracking { get; private set; }
-        public ObservableCollection<List> Lists { get; private set; }
+        public ObservableCollection<List> Lists { get; }
 
         public TrackingAddWindow()
         {
@@ -39,7 +39,7 @@ namespace Twimager.Windows
 
                 Tracking = new AccountTracking
                 {
-                    Id = (long)user.Id,
+                    Id = user.Id ?? 0,
                     ScreenName = user.ScreenName,
                     Name = user.Name,
                     ProfileImageUrl = user.ProfileImageUrlHttps
@@ -66,7 +66,7 @@ namespace Twimager.Windows
         private void AddListTracking(object sender, RoutedEventArgs e)
         {
             var item = ListName.SelectedItem;
-            if (item == null || !(item is List))
+            if (item is not List)
             {
                 var dialog = new TaskDialog
                 {
