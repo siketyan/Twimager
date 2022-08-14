@@ -11,6 +11,7 @@ using Twimager.Objects;
 using System.Collections.Generic;
 using Twimager.Utilities;
 using System;
+using System.Net.Http;
 
 namespace Twimager.Windows
 {
@@ -93,7 +94,7 @@ namespace Twimager.Windows
                 await _logger.LogAsync($"Created directory: {dir}");
             }
 
-            using (var wc = new WebClient())
+            using (var wc = new HttpClient())
             {
                 while (true)
                 {
@@ -188,7 +189,7 @@ namespace Twimager.Windows
             Close();
         }
 
-        private async Task<bool> DownloadMediaAsync(WebClient wc, Status status, string destination)
+        private async Task<bool> DownloadMediaAsync(HttpClient wc, Status status, string destination)
         {
             var entities = status.ExtendedEntities;
             if (entities == null)
@@ -239,7 +240,9 @@ namespace Twimager.Windows
 
                         if (File.Exists(file)) break;
                         await _logger.LogAsync($"  + {name}");
-                        await wc.DownloadFileTaskAsync(url, file);
+
+                        await using var stream = new FileStream(file, FileMode.Create, FileAccess.Write);
+                        await (await wc.GetStreamAsync(url)).CopyToAsync(stream);
                     }
                     catch
                     {
