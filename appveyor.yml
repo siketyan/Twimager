@@ -1,4 +1,4 @@
-image: Visual Studio 2017
+image: Visual Studio 2022
 environment:
   secret:
     secure: K+Ons0QEVyWnUNx3+GhHNQ0SASmKQohnHBySnv3SfhnoB4OjLpaMlFevjHuLWzptAaXlQSqqC66P79XjS2bGCM+QzPj8j+xAIy2VcjVcAY7qs3iSrV39GtuCgkdreknBfv6o+5oZr67khBm/DNECpGyIcB5UmRC+w9MgJb9ZUOU=
